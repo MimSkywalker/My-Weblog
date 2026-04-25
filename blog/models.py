@@ -1,7 +1,5 @@
 
-from tkinter import CASCADE
-from turtle import title
-from unicodedata import category
+
 
 from django.db import models
 
@@ -11,6 +9,8 @@ from django.conf import settings
 # except
 from django.utils.text import Truncator
 from django.utils.html import strip_tags
+from django.utils import timezone
+
 
 
 from django.core.exceptions import ValidationError
@@ -18,7 +18,7 @@ from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ObjectDoesNotExist
 
 from slugify import slugify
-
+from taggit.managers import TaggableManager
 
 from PIL import Image
 
@@ -63,7 +63,8 @@ def post_featured_image_avatar_path(instance, filename):
         return f"blog/posts/featured_image/{instance.id}/featured_image{ext}"
 
 
-
+def get_default_category():
+    return Category.objects.get_or_create(title="Uncategorized")[0].pk
 
 class Category(models.Model):
     title = models.CharField(
@@ -118,128 +119,164 @@ class Category(models.Model):
 
 
 
+class Post(models.Model):
+
+    class Status(models.TextChoices):
+        DRAFT = "draft", "Draft"
+        PUBLISHED = "published", "Published"
+        ARCHIVED = "archived","Archived"
 
 
 
-# class Post(models.Model):
+    featured_image = models.ImageField(
+        upload_to=post_featured_image_avatar_path,
+        blank=True,
+        verbose_name='Featured Image',
+        validators=[
+            FileExtensionValidator(["jpg","jpeg","png","webp"]),
+            validate_image_dimensions
+        ]
+    )
 
-#     class Status(models.TextChoices):
-#         DRAFT = "draft", "Draft"
-#         PUBLISHED = "published", "Published"
-#         ARCHIVED = "archived","Archived"
-
-
-
-#     featured_image = models.ImageField(
-#         upload_to=post_featured_image_avatar_path,
-#         blank=True,
-#         verbose_name='Featured Image',
-#         validators=[validate_image_dimensions]
-#     )
-
-#     title_en = models.CharField(max_length=255,
-#                             unique=True,
-#                             db_index=True,
-#                             blank=True,
-#                             null=True)
+    title_en = models.CharField(max_length=255,
+                            blank=True,
+                            null=True)
     
-#     title = models.CharField(max_length=255,
-#                              unique=True,
-#                              db_index=True,
-#                              blank=False)
+    title = models.CharField(max_length=255,
+                             blank=False)
     
-#     excerpt = models.TextField(
-#         blank=True,
-#         help_text="Short summary of the post"
-#     )
+    excerpt = models.TextField(
+        blank=True,
+        help_text="Short summary of the post"
+    )
     
-#     content = models.TextField()
+    content = models.TextField()
     
-#     author = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#         related_name='posts'
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='posts'
         
-#     )
+    )
 
 
 
-#     # category = models.ForeignKey(
-#     #     Category,
-#     #     on_delete=models.SET_DEFAULT,
-#     #     related_name="posts",
-#     #     )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_DEFAULT,
+        related_name="posts",
+        default=get_default_category
+        )
     
     
-#     # tags = 'x'
+    tags = TaggableManager(blank=True)
     
     
     
-#     status = models.CharField(max_length=20, choices=Status, default=Status.DRAFT)
+    status = models.CharField(
+        max_length=20,
+         choices=Status.choices,
+         default=Status.DRAFT
+        )
     
-#     # views_count = 'x'
+    # views_count = 'x'
     
-#     # reading_time = 'x'
+ 
     
-#     # slug = 'x'
+    slug =  models.SlugField(
+        max_length=255,
+        unique=True,
+        blank=True
+    )
     
-#     # login_required = 'x'
-    
-#     # created_date = 'x'
-    
-#     # updated_date = 'x'
+    login_required = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     
-#     # published_date = 'x'
+    published_at = models.DateTimeField(
+    null=True,
+    blank=True,
+    db_index=True
+            )
     
-#     # meta_description = 'x'
-    
-#     # meta_keywords = 'x'
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text="SEO meta description (max 160 characters)"
+    )
 
+    def save(self, *args, **kwargs):
+        if not self.excerpt:
+            clean_content = strip_tags(self.content or "")
+            self.excerpt = Truncator(clean_content).words(30)
 
+        if not self.meta_description:
+            clean_content = strip_tags(self.content or "")
+            self.meta_description = Truncator(clean_content).chars(160)
 
-#     def save(self, *args, **kwargs):
-#         if not self.excerpt:
-#             clean_content = strip_tags(self.content)
-#             self.excerpt = Truncator(clean_content).words(30)
-
-
-#         is_new = self.pk is None
-#         old_image_path = None
+        is_new = self.pk is None
+        old_image_path = None
         
-#         if not is_new:
-#             try:
-#                 old_image_path = Post.objects.get(pk=self.pk).featured_image.path
-#             except (ObjectDoesNotExist, ValueError):
-#                 old_image_path = None
-#         super().save(*args, **kwargs)
+        if not is_new:
+            try:
+                old_image_path = Post.objects.get(pk=self.pk).featured_image.path
+            except (ObjectDoesNotExist, ValueError):
+                old_image_path = None
+
+
+        if not self.slug:
+            
+            if self.title_en:
+                base_slug = slugify(self.title_en)
+            else:
+                base_slug = slugify(self.title)
+
+            if not base_slug:
+                base_slug = "post"
+
+            slug = base_slug
+            counter = 1
+
+            while self.__class__.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+
+        if self.status == self.Status.PUBLISHED:
+            if not self.published_at:
+                self.published_at = timezone.now()
+
+        super().save(*args, **kwargs)
             
 
-#         if is_new and self.featured_image:
-#             temp_path = self.featured_image.path
-#             _, ext = os.path.splitext(temp_path)
+        if is_new and self.featured_image:
+            temp_path = self.featured_image.path
+            _, ext = os.path.splitext(temp_path)
 
-#             final_dir = f"blog/posts/featured_image/{self.pk}"
-#             final_path = f"{final_dir}/featured_image{ext}"
+            final_dir = f"blog/posts/featured_image/{self.pk}"
+            final_path = f"{final_dir}/featured_image{ext}"
 
-#             full_final_dir = os.path.join(settings.MEDIA_ROOT, final_dir)
-#             os.makedirs(full_final_dir, exist_ok=True)
+            full_final_dir = os.path.join(settings.MEDIA_ROOT, final_dir)
+            os.makedirs(full_final_dir, exist_ok=True)
 
 
-#             final_full_path = os.path.join(settings.MEDIA_ROOT, final_path)
-#             shutil.move(temp_path, final_full_path)
+            final_full_path = os.path.join(settings.MEDIA_ROOT, final_path)
+            shutil.move(temp_path, final_full_path)
         
+            self.featured_image.name = final_path
 
-#             self.featured_image.name = final_path
-#             super().save(update_fields=["featured_image"])
+
+            super().save(update_fields=["featured_image"])
             
-#         if old_image_path and self.featured_image and old_image_path != self.featured_image.path:
-#             if os.path.exists(old_image_path):
-#                 os.remove(old_image_path)
 
+        if old_image_path and self.featured_image and old_image_path != self.featured_image.path:
+            if os.path.exists(old_image_path):
+                os.remove(old_image_path)
 
-
-#     def __str__(self) -> str:
+    def __str__(self) -> str:
         return self.title
