@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # Apps
     "accounts.apps.AccountsConfig",
     "blog",
+    "home",
 
     #tools
     'taggit',
