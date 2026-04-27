@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from blog.models import Post
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
+from django.urls import reverse
+from django.contrib import messages
+from .forms import ContactMessageForm
+from django.shortcuts import get_object_or_404
+
 
 User = get_user_model()
 
@@ -27,9 +32,28 @@ def about_view(request):
 
 
 def contact_view(request):
-    mohammad = User.objects.get(username="mohammad")
-    context = {"mohammad":mohammad}
+    form = ContactMessageForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "پیام شما با موفقیت ثبت شد. ممنون از شما!")
+        return redirect("home:contact")
+
+    if request.method == "POST":
+        messages.error(request, "فرم نامعتبر است. لطفاً ورودی‌ها را بررسی کنید.")
+
+    mohammad = User.objects.filter(username="mohammad").first()
+
+    context = {
+        "form": form,
+        "mohammad": mohammad,
+    }
     return render(request, "home/contact.html", context)
+
+
+
+
+
 
 def projects_view(request):
     mohammad = User.objects.get(username="mohammad")

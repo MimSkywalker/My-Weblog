@@ -27,7 +27,7 @@
                 خوشحال می‌شوم پیام شما را دریافت کنم.
             </p>
 
-<form class="contact-form" method="post">
+<form class="contact-form" method="post" action="{% url "home:contact" %}">
     {% csrf_token %}
 
     <input type="text" name="name" placeholder="نام شما" required>
@@ -51,6 +51,17 @@
     <button type="submit">ارسال پیام</button>
 </form>
 
+            {% if messages %}
+            <div class="msg-container">
+                {% for message in messages %}
+                    <div class="msg-card {{ message.tags }}">
+                        <span class="msg-text">{{ message }}</span>
+                        <span class="msg-close">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
 
             <div class="contact-links">
                 <h3>راه‌های ارتباطی دیگر</h3>
@@ -60,7 +71,12 @@
                     <li>گیت‌هاب: github.com/mohammad</li>
                     <li>تلگرام: @mohammad</li>
                 </ul>
+
+
+            
             </div>
+
+         
 
         </main>
 

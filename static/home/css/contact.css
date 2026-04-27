@@ -188,3 +188,86 @@
     font-size: 12px;
   }
 }
+
+
+/* Container */
+.msg-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 320px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Elegant Card */
+.msg-card {
+    background: #ffffff;
+    color: #333;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+
+    opacity: 0;
+    transform: translateY(-8px);
+    animation: fadeSlideIn 0.5s ease forwards;
+}
+
+/* Success – سبز ملایم */
+.msg-card.success {
+    border-right: 6px solid #3cb371;
+}
+
+/* Error – قرمز شیک */
+.msg-card.error {
+    border-right: 6px solid #d9534f;
+}
+
+/* Info – آبی */
+.msg-card.info {
+    border-right: 6px solid #0275d8;
+}
+
+/* Warning – زرد */
+.msg-card.warning {
+    border-right: 6px solid #f0ad4e;
+}
+
+/* Close button */
+.msg-close {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    transition: 0.3s;
+}
+
+.msg-close:hover {
+    color: #000;
+}
+
+/* fade-out animation */
+.fade-out {
+    animation: fadeOut 0.5s forwards ease;
+}
+
+@keyframes fadeSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
