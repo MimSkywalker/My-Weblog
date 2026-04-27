@@ -1,0 +1,25 @@
+      {% load static %}
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="{{ mohammad.avatar.url }}" alt="profile" class="avatar" />
+          <h2>
+            <h2>{{ mohammad.get_full_name }}</h2>
+          </h2>
+          <p class="bio">{{ mohammad.bio }}</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#">درباره من</a>
+          <a href="#">پروژه‌ها</a>
+          <a href="#">وبلاگ</a>
+          <a href="#">تماس</a>
+        </nav>
+
+        <div class="socials">
+          <a href="#">GitHub</a>
+          <a href="#">Twitter</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">YouTube</a>
+          <a href="#">Telegram</a>
+        </div>
+      </aside>

@@ -1,80 +1,34 @@
+{% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>وبلاگ محمد</title>
+    <link rel="stylesheet" href="{% static 'home/css/home.css' %}" />
   </head>
+  
+
   <body>
-    <h1>Lorem ipsum, dolor sit amet consectetur adipisicing.</h1>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-      doloremque illo voluptate possimus, eos in vel iste quam quis illum ex
-      omnis officia neque eius doloribus nesciunt maiores cupiditate, placeat
-      reprehenderit ad et modi voluptas qui consequuntur. Eius in earum
-      veritatis excepturi, sed animi fugit, sit deserunt obcaecati dignissimos
-      laudantium cum! Corporis iure praesentium, fugit quasi unde nesciunt et
-      cupiditate autem placeat, neque eos ipsam nam, iusto accusamus ducimus.
-      Dolorem officiis, assumenda nihil quidem voluptate architecto earum cumque
-      unde culpa harum suscipit deleniti esse in iste. Voluptatem modi nostrum
-      fugit. Eligendi temporibus et esse, magni, facere ex corrupti inventore
-      quos vitae officiis minima consequatur consequuntur porro voluptatum
-      tenetur repellendus velit pariatur repudiandae libero, optio impedit?
-      Perspiciatis dicta aliquid sit tempora doloribus, placeat ipsa adipisci
-      cumque sint libero mollitia natus hic, illum veniam. Reprehenderit ducimus
-      dolor minima qui, officiis accusamus perspiciatis id soluta numquam, et
-      nesciunt? Fuga cupiditate soluta quasi eum voluptatum sapiente consequatur
-      necessitatibus, possimus sunt explicabo quis quod amet doloremque delectus
-      fugit illum suscipit corporis consectetur magnam, quibusdam sit? Dolorem
-      exercitationem nemo harum repudiandae eaque eius, nostrum quidem voluptas
-      adipisci illum consequuntur neque eum vero libero itaque recusandae et
-      eveniet atque quam aliquam facere, totam commodi ullam delectus? Vero.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-      doloremque illo voluptate possimus, eos in vel iste quam quis illum ex
-      omnis officia neque eius doloribus nesciunt maiores cupiditate, placeat
-      reprehenderit ad et modi voluptas qui consequuntur. Eius in earum
-      veritatis excepturi, sed animi fugit, sit deserunt obcaecati dignissimos
-      laudantium cum! Corporis iure praesentium, fugit quasi unde nesciunt et
-      cupiditate autem placeat, neque eos ipsam nam, iusto accusamus ducimus.
-      Dolorem officiis, assumenda nihil quidem voluptate architecto earum cumque
-      unde culpa harum suscipit deleniti esse in iste. Voluptatem modi nostrum
-      fugit. Eligendi temporibus et esse, magni, facere ex corrupti inventore
-      quos vitae officiis minima consequatur consequuntur porro voluptatum
-      tenetur repellendus velit pariatur repudiandae libero, optio impedit?
-      Perspiciatis dicta aliquid sit tempora doloribus, placeat ipsa adipisci
-      cumque sint libero mollitia natus hic, illum veniam. Reprehenderit ducimus
-      dolor minima qui, officiis accusamus perspiciatis id soluta numquam, et
-      nesciunt? Fuga cupiditate soluta quasi eum voluptatum sapiente consequatur
-      necessitatibus, possimus sunt explicabo quis quod amet doloremque delectus
-      fugit illum suscipit corporis consectetur magnam, quibusdam sit? Dolorem
-      exercitationem nemo harum repudiandae eaque eius, nostrum quidem voluptas
-      adipisci illum consequuntur neque eum vero libero itaque recusandae et
-      eveniet atque quam aliquam facere, totam commodi ullam delectus? Vero.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-      doloremque illo voluptate possimus, eos in vel iste quam quis illum ex
-      omnis officia neque eius doloribus nesciunt maiores cupiditate, placeat
-      reprehenderit ad et modi voluptas qui consequuntur. Eius in earum
-      veritatis excepturi, sed animi fugit, sit deserunt obcaecati dignissimos
-      laudantium cum! Corporis iure praesentium, fugit quasi unde nesciunt et
-      cupiditate autem placeat, neque eos ipsam nam, iusto accusamus ducimus.
-      Dolorem officiis, assumenda nihil quidem voluptate architecto earum cumque
-      unde culpa harum suscipit deleniti esse in iste. Voluptatem modi nostrum
-      fugit. Eligendi temporibus et esse, magni, facere ex corrupti inventore
-      quos vitae officiis minima consequatur consequuntur porro voluptatum
-      tenetur repellendus velit pariatur repudiandae libero, optio impedit?
-      Perspiciatis dicta aliquid sit tempora doloribus, placeat ipsa adipisci
-      cumque sint libero mollitia natus hic, illum veniam. Reprehenderit ducimus
-      dolor minima qui, officiis accusamus perspiciatis id soluta numquam, et
-      nesciunt? Fuga cupiditate soluta quasi eum voluptatum sapiente consequatur
-      necessitatibus, possimus sunt explicabo quis quod amet doloremque delectus
-      fugit illum suscipit corporis consectetur magnam, quibusdam sit? Dolorem
-      exercitationem nemo harum repudiandae eaque eius, nostrum quidem voluptas
-      adipisci illum consequuntur neque eum vero libero itaque recusandae et
-      eveniet atque quam aliquam facere, totam commodi ullam delectus? Vero.
-    </p>
+    <div class="layout">
+      <!-- ستون سفید سمت چپ -->
+      <div class="left-space"></div>
+
+      <!-- محتوای اصلی -->
+      <main class="content">
+        <h1 class="page-title">آخرین مقالات</h1>
+        <div class="search-box">
+          <input type="text" placeholder="جستجو در مقالات..." />
+        </div>
+
+       {% include "home/includes/posts.html" %}
+         
+       {% include "home/includes/pagination.html" %}
+ 
+      </main>
+
+      <!-- سایدبار راست -->
+        {% include "home/includes/sidebar.html" %}
+    </div>
   </body>
 </html>

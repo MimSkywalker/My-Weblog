@@ -1,0 +1,36 @@
+  {% load static %}
+  
+  <div class="page-numbers">
+
+  {# صفحه اول همیشه نمایش داده شود #}
+  {% if page_obj.number > 3 %}
+    <a class="page-number" href="?page=1">1</a>
+    {% if page_obj.number > 4 %}
+      <span class="dots">...</span>
+    {% endif %}
+  {% endif %}
+
+  {# صفحات اطراف صفحه فعلی #}
+  {% for num in page_obj.paginator.page_range %}
+    {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+      
+      {% if page_obj.number == num %}
+        <span class="page-number active">{{ num }}</span>
+      {% else %}
+        <a class="page-number" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
+    
+    {% endif %}
+  {% endfor %}
+
+  {# صفحه آخر همیشه نمایش داده شود #}
+  {% if page_obj.number < page_obj.paginator.num_pages|add:-2 %}
+    {% if page_obj.number < page_obj.paginator.num_pages|add:-3 %}
+      <span class="dots">...</span>
+    {% endif %}
+    <a class="page-number" href="?page={{ page_obj.paginator.num_pages }}">
+      {{ page_obj.paginator.num_pages }}
+    </a>
+  {% endif %}
+
+</div>
