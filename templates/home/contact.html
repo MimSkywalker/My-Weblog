@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تماس با من</title>
+
+    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
+</head>
+
+<body>
+    <div class="layout">
+
+        <!-- ستون سفید -->
+        <div class="left-space"></div>
+
+        <!-- محتوای صفحه تماس -->
+        <main class="content">
+
+            <h1 class="page-title">تماس با من</h1>
+
+            <p class="contact-intro">
+                اگر پرسشی درباره برنامه‌نویسی، جنگو، یا مسیر یادگیری دارید
+                خوشحال می‌شوم پیام شما را دریافت کنم.
+            </p>
+
+            <form class="contact-form" method="post">
+                {% csrf_token %}
+
+                <input type="text" name="name" placeholder="نام شما" required>
+
+                <input type="email" name="email" placeholder="ایمیل شما" required>
+
+                <textarea name="message" rows="6" placeholder="پیام شما..." required></textarea>
+
+                <button type="submit">ارسال پیام</button>
+            </form>
+
+            <div class="contact-links">
+                <h3>راه‌های ارتباطی دیگر</h3>
+
+                <ul>
+                    <li>ایمیل: mohammad@example.com</li>
+                    <li>گیت‌هاب: github.com/mohammad</li>
+                    <li>تلگرام: @mohammad</li>
+                </ul>
+            </div>
+
+        </main>
+
+        <!-- سایدبار -->
+        {% include "home/includes/sidebar.html" %}
+    </div>
+
+    <script src="{% static 'home/js/home.js' %}" defer></script>
+</body>
+
+</html>

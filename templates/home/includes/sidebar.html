@@ -14,10 +14,11 @@
         <nav>
 
             <ul class="sidebar-nav">
-              <li><a href="#">درباره من</a></li>
-              <li><a href="#">وبلاگ</a></li>
-              <li><a href="#">پروژه‌ها</a></li>
-              <li><a href="#">تماس</a></li>
+            <li><a href="{% url 'home:homepage' %}">صفحۀ اصلی</a></li>
+              <li><a href="{% url 'home:about' %}">درباره من</a></li>
+              <li><a href="{% url 'blog:blog' %}">وبلاگ</a></li>
+              <li><a href="{% url 'home:projects' %}">پروژه‌ها</a></li>
+              <li><a href="{% url 'home:contact' %}">تماس</a></li>
             </ul>
 
         </nav>

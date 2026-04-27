@@ -1,14 +1,31 @@
-// ----------- DOM Ready -----------
-document.addEventListener("DOMContentLoaded", function () {
+// حذف کلاس no-js وقتی جاوااسکریپت فعال است
+document.documentElement.classList.remove("no-js");
 
-    // ----------- عناصر مورد نیاز -----------
-    const navLinks = document.querySelectorAll(".nav a[href^='#']");
-    const navToggle = document.querySelector(".nav-toggle");
-    const nav = document.querySelector(".nav");
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ---------------- عناصر ----------------
     const posts = document.querySelectorAll(".post");
+    const sidebarLinks = document.querySelectorAll(".sidebar-nav a");
+    const navLinks = document.querySelectorAll("a[href^='#']");
+    const nav = document.querySelector(".nav");
+    const navToggle = document.querySelector(".nav-toggle");
 
 
-    // ----------- نمایش پست‌ها هنگام اسکرول -----------
+    // ---------------- فعال شدن لینک صفحه ----------------
+    const currentPath = window.location.pathname;
+
+    sidebarLinks.forEach(link => {
+
+        const linkPath = new URL(link.href).pathname;
+
+        if (linkPath === currentPath) {
+            link.classList.add("active");
+        }
+
+    });
+
+
+    // ---------------- نمایش پست‌ها هنگام اسکرول ----------------
     const observer = new IntersectionObserver((entries) => {
 
         entries.forEach(entry => {
@@ -18,73 +35,67 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-    }, {
-        threshold: 0.1
-    });
+    }, { threshold: 0.1 });
 
-    posts.forEach(post => {
-        observer.observe(post);
-    });
+    posts.forEach(post => observer.observe(post));
 
 
-    // ----------- اسکرول نرم روی منوها -----------
+    // ---------------- اسکرول نرم ----------------
     navLinks.forEach(link => {
+
         link.addEventListener("click", function (e) {
 
             const targetId = this.getAttribute("href");
 
-            // اگر لینک به سکشن خاص اشاره می‌کند
-            if (targetId.startsWith("#") && targetId.length > 1) {
+            if (targetId.startsWith("#")) {
 
-                const targetEl = document.querySelector(targetId);
+                const target = document.querySelector(targetId);
 
-                if (targetEl) {
+                if (target) {
                     e.preventDefault();
 
-                    targetEl.scrollIntoView({
+                    target.scrollIntoView({
                         behavior: "smooth",
                         block: "start"
                     });
-
-                    // بستن منو در موبایل
-                    if (window.innerWidth <= 768 && nav && nav.classList.contains("nav-open")) {
-                        nav.classList.remove("nav-open");
-                    }
                 }
+
             }
+
         });
+
     });
 
 
-    // ----------- باز/بسته کردن منو در موبایل -----------
+    // ---------------- منوی موبایل ----------------
     if (navToggle && nav) {
-        navToggle.addEventListener("click", function () {
+
+        navToggle.addEventListener("click", () => {
             nav.classList.toggle("nav-open");
         });
+
     }
 
 
-    // ----------- افکت کارت پست‌ها -----------
+    // ---------------- افکت پست ----------------
     posts.forEach(post => {
 
-        // hover دسکتاپ
-        post.addEventListener("mouseenter", function () {
-            this.classList.add("post-hovered");
+        post.addEventListener("mouseenter", () => {
+            post.classList.add("post-hovered");
         });
 
-        post.addEventListener("mouseleave", function () {
-            this.classList.remove("post-hovered");
+        post.addEventListener("mouseleave", () => {
+            post.classList.remove("post-hovered");
         });
 
-        // موبایل: فوکوس روی پست
-        post.addEventListener("click", function () {
-            if (window.innerWidth <= 768) {
-                this.scrollIntoView({
+        if (window.innerWidth <= 768) {
+            post.addEventListener("click", () => {
+                post.scrollIntoView({
                     behavior: "smooth",
                     block: "center"
                 });
-            }
-        });
+            });
+        }
 
     });
 
