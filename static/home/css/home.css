@@ -42,6 +42,7 @@ body{
   display:flex;
   flex-direction:row-reverse;
   min-height:100vh;
+  align-items: stretch;
 }
 
 /* Left Space */
@@ -75,6 +76,10 @@ body{
   will-change: opacity, transform;
 }
 
+.post:last-of-type {
+  border-bottom: none;
+}
+
 .post.show{
   opacity:1;
   transform:translateY(0);
@@ -104,6 +109,8 @@ body{
   color:#666;
   margin-bottom:8px;
 }
+
+
 
 .date{
   font-size:13px;
@@ -226,6 +233,32 @@ body{
   border-color:#999;
 }
 
+
+
+.search-form{
+  display:flex;
+  width:100%;
+}
+
+.search-input{
+  flex:1;
+  padding:10px 12px;
+  border:1px solid #e0e0e0;
+  border-radius:8px;
+  font-size:14px;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:#cfcfcf;
+}
+
+.search-btn{
+  display:none;
+}
+
+
+
 /* Responsive */
 
 @media (max-width:1400px){
@@ -271,7 +304,15 @@ body{
   gap:8px;
 }
 
-.page-number{
+.page-numbers{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:40px 0 60px;
+}
+
+.page-number,
+.page-btn{
   text-decoration:none;
   color:#444;
   padding:8px 14px;
@@ -279,7 +320,7 @@ body{
   border:1px solid #e5e5e5;
   font-size:14px;
   background:#fff;
-  transition:background 0.25s ease, color 0.25s ease;
+  transition:background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .page-number:hover{
@@ -293,14 +334,7 @@ body{
 }
 
 .page-btn{
-  text-decoration:none;
   color:#555;
-  padding:8px 14px;
-  border-radius:8px;
-  border:1px solid #e5e5e5;
-  background:#fff;
-  font-size:14px;
-  transition:background 0.25s ease, color 0.25s ease;
 }
 
 .page-btn:hover{
@@ -313,4 +347,50 @@ body{
   padding:8px 10px;
   color:#999;
   font-size:14px;
+}
+
+
+.mini-footer{
+    margin-top:20px;
+    padding:12px 0;
+    border-top:1px solid #eee;
+    text-align:center;
+    font-size:12px;
+    color:#333;
+}
+
+
+@media (max-width:600px){
+
+  .search-form{
+    gap:6px;
+  }
+
+  .search-input{
+    border-radius:8px;
+  }
+
+  .search-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    border:1px solid #e0e0e0;
+    border-radius:8px;
+
+    background:#fafafa;
+    cursor:pointer;
+
+    color:#666;
+    transition:all .2s ease;
+  }
+
+  .search-btn:hover{
+    background:#f0f0f0;
+    color:#000;
+  }
+
 }

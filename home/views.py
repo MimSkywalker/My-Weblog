@@ -1,3 +1,7 @@
+from token import TILDE
+from turtle import title
+from urllib import request
+
 from django.shortcuts import render, redirect
 from blog.models import Post
 from django.contrib.auth import get_user_model
@@ -6,6 +10,8 @@ from django.urls import reverse
 from django.contrib import messages
 from .forms import ContactMessageForm
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
 
 
 User = get_user_model()
@@ -16,7 +22,7 @@ def homepage(request):
         published_at__isnull=False
     ).order_by("-published_at")
     mohammad = User.objects.get(username="mohammad")
-    paginator = Paginator(posts, 20)
+    paginator = Paginator(posts, 1)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -52,10 +58,27 @@ def contact_view(request):
 
 
 
-
-
-
 def projects_view(request):
     mohammad = User.objects.get(username="mohammad")
     context = {"mohammad":mohammad}
     return render(request, "home/projects.html", context)
+
+
+def home_search(request):
+    mohammad = User.objects.get(username="mohammad")
+    posts = Post.objects.filter(
+    status=Post.Status.PUBLISHED,
+    published_at__isnull=False
+    ).order_by("-published_at")
+
+    if request.method == "GET":
+        if q := request.GET.get('q'):
+            posts= posts.filter(
+                Q(content__icontains=q)|
+                Q(title__icontains=q)|
+                Q(title_en__icontains=q)|
+                Q(excerpt__icontains=q)            
+                )
+    context = {'posts': posts, "mohammad":mohammad}
+    return render(request, 'home/index.html', context)
+    
