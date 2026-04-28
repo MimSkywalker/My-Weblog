@@ -1,6 +1,7 @@
 
 {% load static %}
 
+
 <!doctype html>
 <html lang="fa" dir="rtl" class="no-js">
 <head>
@@ -23,20 +24,34 @@
         <h1 class="page-title">وبلاگ</h1>
 
         <!-- فیلتر دسته‌ها -->
-        <div class="blog-categories">
+            {% if active_tag %}
+                <div class="blog-tags-filter">
+                    <a href="{% url 'blog:blog' %}" class="tag-item {% if not active_tag %}active{% endif %}">
+                        همه
+                    </a>
+            {% for tag in tags %}
+                        <a href="{% url 'blog:tag' tag.slug %}"
+                        class="tag-item {% if active_tag == tag.slug %}active{% endif %}">
+                            {{ tag.name }}
+                        </a>
+            {% endfor %}
+                </div>
+            
+            {% else %}
+                <div class="blog-categories">
                     <a href="{% url 'blog:blog' %}"
                     class="cat-item {% if not active_category %}active{% endif %}">
                         همه
                     </a>
-
-
-                    {% for cat in categories %}
+            {% for cat in categories %}
                         <a href="{% url 'blog:category' cat.slug %}"
                         class="cat-item {% if active_category == cat.slug %}active{% endif %}">
-                        {{ cat.title }}
+                            {{ cat.title }}
                         </a>
-                    {% endfor %}
-        </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
 
         <!-- لیست پست‌ها -->
         <div class="blog-blog">
@@ -45,13 +60,13 @@
             <article class="blog-card fade-in">
 
                 {% if post.featured_image %}
-                <a href="{{ post.get_absolute_url }}">
+                <a href="{% url 'blog:single_post' post.slug  %}">
                     <img class="blog-thumb" src="{{ post.featured_image.url }}" alt="{{ post.title }}">
                 </a>
                 {% endif %}
 
                 <div class="blog-info">
-                    <a href="{{ post.get_absolute_url }}">
+                    <a href="{% url 'blog:single_post' post.slug  %}">
                         <h2 class="blog-title">{{ post.title }}</h2>
                     </a>
 

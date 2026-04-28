@@ -1,0 +1,243 @@
+/* Single Post */
+
+.post-title{
+    font-size:32px;
+    margin-bottom:20px;
+    color:#222;
+}
+
+.single-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    color:#777;
+    margin-bottom:25px;
+}
+
+.single-thumb-wrapper{
+    margin:30px 0;
+}
+
+.single-thumb{
+    width:100%;
+    max-height:420px;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.single-content{
+    line-height:2;
+    color:#444;
+    font-size:16px;
+    margin-bottom:40px;
+}
+
+.single-content p{
+    margin-bottom:20px;
+}
+
+.single-content img{
+    max-width:100%;
+    border-radius:10px;
+    margin:20px 0;
+}
+
+/* Tags */
+
+.single-tags{
+    margin-top:20px;
+    margin-bottom:50px;
+}
+
+.single-tags h3{
+    font-size:18px;
+    margin-bottom:12px;
+    color:#333;
+}
+
+.tag-list{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.tag-list .tag{
+    background:#f2f2f2;
+    padding:6px 12px;
+    border-radius:6px;
+    color:#555;
+    text-decoration:none;
+    font-size:14px;
+    transition:background .2s ease;
+}
+
+.tag-list .tag:hover{
+    background:#e2e2e2;
+}
+
+/* Related posts */
+
+.related-posts{
+    margin-top:60px;
+}
+
+.related-posts h3{
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+.related-list{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.related-item{
+    width:200px;
+    display:flex;
+    flex-direction:column;
+    text-decoration:none;
+    color:#333;
+    transition:transform .25s ease;
+}
+
+.related-item:hover{
+    transform:translateY(-4px);
+}
+
+.related-item img{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+
+
+
+/*  */
+/* عنوان پست + دکمه‌های اشتراک */
+
+.post-title-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.post-title {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    font-size: 32px;
+    color: #222;
+    line-height: 1.4;
+}
+
+/* share buttons */
+
+.share-buttons-top {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    background: #f4f4f4;
+    border-radius: 50%;
+    transition: all .2s ease;
+    text-decoration: none;
+}
+
+.share-btn img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+}
+
+/* hover colors */
+
+.share-btn.telegram:hover { background: #27A7E7; }
+.share-btn.twitter:hover { background: #1DA1F2; }
+.share-btn.linkedin:hover { background: #0077B5; }
+.share-btn.whatsapp:hover { background: #25D366; }
+
+.share-btn:hover img {
+    filter: brightness(0) invert(1);
+}
+
+/* موبایل */
+
+@media (max-width:700px) {
+
+    .post-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .post-title {
+        font-size: 26px;
+    }
+
+}
+
+/* حل مشکل بزرگ شدن تصاویر داخل محتوا */
+
+.single-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* کنترل مخصوص SVG ها */
+
+.single-content img[src$=".svg"] {
+    max-width: 280px;
+    display: block;
+    margin: 30px auto;
+}
+
+
+
+
+/* رنگ سفارشی موقع hover برای هر شبکه */
+.share-btn.telegram:hover { background: #27A7E7; }
+.share-btn.twitter:hover { background: #1DA1F2; }
+.share-btn.linkedin:hover { background: #0077B5; }
+.share-btn.whatsapp:hover { background: #25D366; }
+.share-btn:hover img { filter: brightness(20); }
+
+@media(max-width: 700px) {
+    .post-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .share-buttons-top {
+        margin-top: 6px;
+    }
+}
+
+
+@media(max-width:700px){
+
+    .single-thumb{
+        max-height:280px;
+    }
+
+    .related-item{
+        width:48%;
+    }
+}
