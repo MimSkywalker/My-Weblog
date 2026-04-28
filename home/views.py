@@ -1,6 +1,3 @@
-from token import TILDE
-from turtle import title
-from urllib import request
 
 from django.shortcuts import render, redirect
 from blog.models import Post

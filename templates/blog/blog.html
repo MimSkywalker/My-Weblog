@@ -1,2 +1,95 @@
-<h1>My Blog</h1>
-<p>Welcome to my first Django blog page!</p>
+
+{% load static %}
+
+<!doctype html>
+<html lang="fa" dir="rtl" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وبلاگ | نوشته‌ها</title>
+
+    <link rel="stylesheet" href="{% static 'blog/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+    
+</head>
+
+<body>
+
+<div class="layout">
+    <div class="left-space"></div>
+
+    <main class="content">
+
+        <h1 class="page-title">وبلاگ</h1>
+
+        <!-- فیلتر دسته‌ها -->
+        <div class="blog-categories">
+                    <a href="{% url 'blog:blog' %}"
+                    class="cat-item {% if not active_category %}active{% endif %}">
+                        همه
+                    </a>
+
+
+                    {% for cat in categories %}
+                        <a href="{% url 'blog:category' cat.slug %}"
+                        class="cat-item {% if active_category == cat.slug %}active{% endif %}">
+                        {{ cat.title }}
+                        </a>
+                    {% endfor %}
+        </div>
+
+        <!-- لیست پست‌ها -->
+        <div class="blog-blog">
+
+            {% for post in posts %}
+            <article class="blog-card fade-in">
+
+                {% if post.featured_image %}
+                <a href="{{ post.get_absolute_url }}">
+                    <img class="blog-thumb" src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                </a>
+                {% endif %}
+
+                <div class="blog-info">
+                    <a href="{{ post.get_absolute_url }}">
+                        <h2 class="blog-title">{{ post.title }}</h2>
+                    </a>
+
+                    <p class="blog-excerpt">{{ post.excerpt|safe }}</p>
+
+                    <div class="blog-meta">
+                        <span class="dot">•</span>
+                        <span class="blog-cat">{{ post.category.title }}</span>
+                        <span class="dot"></span>
+                        <span class="blog-author"></span>
+                        <span class="dot">•</span>
+                        <span class="blog-date">{{ post.published_at|date:"j F Y" }}</span>
+                    </div>
+
+                    <div class="blog-tags">
+                        {% for tag in post.tags.all %}
+                            <a href="{% url 'blog:tag' tag.slug %}" class="tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+            </article>
+            {% empty %}
+
+            <p>پستی یافت نشد.</p>
+
+            {% endfor %}
+
+        </div>
+
+        {% include "home/includes/pagination.html" %}
+        {% include "home/includes/footer.html" %}
+    </main>
+
+    {% include "home/includes/sidebar.html" %}
+</div>
+
+<script src="{% static 'home/js/home.js' %}" defer></script>
+</body>
+</html>
