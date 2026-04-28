@@ -1,0 +1,159 @@
+/* =========================
+   Comments Section (Matching Contact Style)
+========================= */
+
+.comments-section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+/* Title – مثل h1 و h3 های contact */
+.comments-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+/* Intro text – همان سبک contact-intro */
+.comments-intro {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 35px;
+  font-size: 15px;
+}
+
+
+/* =========================
+   Comment List (MINIMAL)
+========================= */
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-bottom: 50px;
+}
+
+.comment-item {
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 13px;
+  color: #888;
+}
+
+.comment-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #444;
+  white-space: pre-line;
+}
+
+.no-comments {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+
+/* =========================
+   Comment Form – EXACTLY like contact form
+========================= */
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 50px;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15.5px;
+  font-family: "IRZar", sans-serif;
+  background: #ffffffba;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+  outline: none;
+  border-color: #999;
+  background: #fff;
+}
+
+.comment-form textarea {
+  resize: vertical;
+  height: 150px;
+  transition: height 0.3s ease;
+}
+
+.comment-form textarea:focus {
+  height: 200px;
+}
+
+/* Button – همان دکمه تماس */
+.comment-submit {
+  width: 160px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  font-family: "IRZar", sans-serif;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.comment-submit:hover {
+  background: #000;
+}
+
+
+/* =========================
+   Divider (same as contact)
+========================= */
+
+hr.divider {
+  border: none;
+  height: 0;
+  border-top: 2px solid rgba(161, 157, 157, 0.08);
+  margin: 28px auto;
+  opacity: 1;
+}
+
+
+/* =========================
+   Responsive (same feel)
+========================= */
+
+@media (max-width: 600px) {
+  .comments-section {
+    margin-top: 40px;
+  }
+
+  .comment-submit {
+    width: 100%;
+  }
+}
