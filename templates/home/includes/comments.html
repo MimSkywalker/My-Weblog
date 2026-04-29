@@ -1,6 +1,37 @@
+{% load static %}
 <hr class="divider">
 
+
+
+
 <div class="comments-section">
+ <div class="comment-form-section">
+
+        <h3 class="form-title">ارسال دیدگاه</h3>
+
+        <form method="post" class="comment-form" action="{% url 'blog:single_post' post.slug %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <input type="text" name="name" placeholder="نامِ شما" required>
+            {{ form.name.errors }}
+
+            <input type="email" name="email" placeholder="ایمیلِ شما" required>
+            {{ form.email.errors }}
+
+            <input type="text" name="subject" placeholder="موضوعِ پیامِ شما" required>
+            {{ form.subject.errors }}
+
+            <textarea name="message" rows="6" placeholder="متن دیدگاه..." required></textarea>
+            {{ form.message.errors }}
+            
+            <button type="submit" class="comment-submit">
+                ارسال دیدگاه
+            </button>
+        </form>
+
+    </div>
+<hr class="divider">
 
 {% if comments.count %}
     <h2 class="comments-title">دیدگاه‌ها ({{ comments.count }})</h2>
@@ -26,28 +57,22 @@
         {% endfor %}
     </div>
 
-    <hr class="divider">
+    
 
-    <div class="comment-form-section">
-
-        <h3 class="form-title">ارسال دیدگاه</h3>
-
-        <form method="post" class="comment-form">
-            {% csrf_token %}
-
-            <input type="text" name="name" placeholder="نامِ شما" required>
-
-            <input type="email" name="email" placeholder="ایمیلِ شما" required>
-
-            <input type="text" name="subject" placeholder="موضوعِ پیامِ شما" required>
-
-            <textarea name="message" rows="6" placeholder="متن دیدگاه..." required></textarea>
-
-            <button type="submit" class="comment-submit">
-                ارسال دیدگاه
-            </button>
-        </form>
-
-    </div>
+   
 
 </div>
+
+            {% if messages %}
+            <div class="msg-container">
+                {% for message in messages %}
+                    <div class="msg-card {{ message.tags }}">
+                        <span class="msg-text">{{ message }}</span>
+                        <span class="msg-close">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+<script src="{% static 'home/js/contact.js' %}" defer></script>
+<script src="{% static 'home/js/home.js' %}" defer></script>

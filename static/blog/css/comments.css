@@ -38,6 +38,10 @@
 .comment-item {
   padding-bottom: 22px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word; 
 }
 
 .comment-meta {
@@ -62,6 +66,10 @@
   line-height: 1.9;
   color: #444;
   white-space: pre-line;
+  word-wrap: break-word;        /* شکستن کلمات بزرگ */
+  overflow-wrap: break-word;    /* پشتیبانی بهتر برای شکستن خط */
+  word-break: break-word;       /* اجبار به شکستن خطوط طولانی */
+  hyphens: auto; 
 }
 
 .no-comments {

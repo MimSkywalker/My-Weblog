@@ -363,3 +363,26 @@ class Post(models.Model):
     def __str__(self) -> str:
     # Human-readable representation of the post
         return self.title
+    
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        "Post",
+        on_delete=models.CASCADE,
+        related_name="comments"
+    )
+
+    name = models.CharField(max_length=120)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True, blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True, blank=False, null=False)
+    is_approved = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f'{self.name}|{self.post} '

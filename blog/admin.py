@@ -1,7 +1,7 @@
 
 from django.utils.html import format_html
 from django.contrib import admin
-from .models import Category, Post
+from .models import Category, Post, Comment
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -95,3 +95,13 @@ class PostAdmin(admin.ModelAdmin):
         if not obj.author_id:
             obj.author = request.user
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("name", "post", "created_at", "is_approved")
+    list_filter = ("is_approved", "created_at")
+    search_fields = ("name", "email", "message")
+    list_per_page = 20
+    date_hierarchy = "created_at"
+    empty_value_display = "-empty-"
