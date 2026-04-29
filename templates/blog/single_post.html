@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{% static 'blog/css/home.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
 </head>
 
 <body>
@@ -129,5 +130,14 @@
 </div>
 
 <script src="{% static 'home/js/home.js' %}" defer></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+    });
+});
+</script>
+
 </body>
 </html>

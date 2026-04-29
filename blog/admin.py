@@ -105,3 +105,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_per_page = 20
     date_hierarchy = "created_at"
     empty_value_display = "-empty-"
+
+
+

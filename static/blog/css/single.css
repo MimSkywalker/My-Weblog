@@ -27,21 +27,24 @@
 }
 
 .single-content{
+    direction: rtl;
+    text-align: justify;
     line-height:2;
     color:#444;
-    font-size:16px;
+    font-size:17px;
     margin-bottom:40px;
+    font-family: "IRZar", "Vazir", "IRANSans", Tahoma, sans-serif;
+
+    unicode-bidi: plaintext;
 }
+
+
+
 
 .single-content p{
     margin-bottom:20px;
 }
 
-.single-content img{
-    max-width:100%;
-    border-radius:10px;
-    margin:20px 0;
-}
 
 /* Tags */
 
@@ -176,6 +179,82 @@
     filter: brightness(0) invert(1);
 }
 
+
+
+
+
+/* CKEDITOR */
+.single-content blockquote {
+    border-right: 3px solid #d0d0d0;
+    padding: 0.8em 2em 0.8em 1.2em;
+    margin: 2em 2em 2em 0;
+    color: #666;
+    font-style: normal;
+    font-size: 1.1em;
+    line-height: 1.5;
+    font-family: inherit;
+    max-width: 700px;
+}
+
+
+.single-content p,
+.single-content li,
+.single-content h1,
+.single-content h2,
+.single-content h3,
+.single-content h4 {
+    unicode-bidi: plaintext;
+}
+
+.single-content h1,
+.single-content h2,
+.single-content h3,
+.single-content h4 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.single-content h1 {
+    font-size: 32px;
+}
+.single-content h2 {
+    font-size: 26px;
+}
+.single-content h3 {
+    font-size: 22px;
+}
+.single-content h4 {
+    font-size: 19px;
+}
+
+
+.single-content pre {
+    direction: ltr;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 18px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid #2a2a2a;
+    font-family: "Fira Code", monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 25px 0;
+    max-width: 100%;
+}
+
+.single-content pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+
+
+
+
 /* موبایل */
 
 @media (max-width:700px) {
@@ -212,12 +291,12 @@
 
 
 
-/* رنگ سفارشی موقع hover برای هر شبکه */
+/* رنگ سفارشی موقع hover برای هر شبکه
 .share-btn.telegram:hover { background: #27A7E7; }
 .share-btn.twitter:hover { background: #1DA1F2; }
 .share-btn.linkedin:hover { background: #0077B5; }
 .share-btn.whatsapp:hover { background: #25D366; }
-.share-btn:hover img { filter: brightness(20); }
+.share-btn:hover img { filter: brightness(20); } */
 
 @media(max-width: 700px) {
     .post-title-row {

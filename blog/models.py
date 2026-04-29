@@ -27,6 +27,9 @@ import os       # File system operations
 import uuid     # Generate unique identifiers
 import shutil   # File moving and management
 
+# CKEditor
+from django_ckeditor_5.fields import CKEditor5Field
+
 
 
 
@@ -197,7 +200,7 @@ class Post(models.Model):
     )
 
     # Main body content (HTML or Markdown)   
-    content = models.TextField()
+    content = CKEditor5Field('Text', config_name='default')
 
     # Author of the post (nullable to avoid deletion cascade)   
     author = models.ForeignKey(

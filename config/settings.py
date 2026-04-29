@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     #tools
     'taggit',
+    "django_ckeditor_5",
 ]
 
 MIDDLEWARE = [
@@ -124,4 +125,94 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+
+
+
+# CKEditor
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'language': 'fa',
+        'toolbar': [
+            'undo', 'redo', '|',
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+
+            'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+
+            'alignment', 'textDirection', '|',
+
+            'bulletedList', 'numberedList', 'blockQuote', '|',
+
+            'link', 'imageUpload', 'insertTable', 'horizontalLine', '|',
+
+            'codeBlock', 'specialCharacters', '|',
+
+            'fullScreen',
+            'sourceEditing',
+        ],
+
+        'fontFamily': {
+            'options': [
+                'Default',
+                'IRZar',
+                'IRANSans',
+                'Vazir',
+                'Shabnam',
+                'Sahel',
+                'Tahoma',
+                'Nazanin',
+                'Yekan'
+            ],
+            'supportAllValues': True
+        },
+
+        'fontSize': {
+            'options': [
+                'default', 12, 14, 16, 18, 20, 22, 24, 26, 28, 32
+            ],
+            'supportAllValues': True
+        },
+
+        'alignment': {
+            'options': ['left', 'right', 'center', 'justify']
+        },
+
+        'image': {
+            'toolbar': [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'imageStyle:alignLeft',
+                'imageStyle:alignRight',
+                'imageStyle:full',
+                '|',
+                'imageTextAlternative'
+            ],
+            'styles': [
+                'inline',
+                'block',
+                'side',
+                'alignLeft',
+                'alignRight',
+                'full'
+            ]
+        },
+
+        'table': {
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableProperties',
+                'tableCellProperties'
+            ]
+        },
+
+        'height': 600,
+        'isReadOnly': False,
+    }
+}
+
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
