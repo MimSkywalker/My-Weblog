@@ -1,5 +1,4 @@
 
-from email import message
 
 from django.contrib import messages
 

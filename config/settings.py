@@ -129,23 +129,27 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 # CKEditor
+# CKEditor
 CKEDITOR_5_CONFIGS = {
     'default': {
         'language': 'fa',
+
         'toolbar': [
             'undo', 'redo', '|',
             'heading', '|',
-            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
 
             'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
 
             'alignment', 'textDirection', '|',
 
-            'bulletedList', 'numberedList', 'blockQuote', '|',
+            'bulletedList', 'numberedList', 'indent', 'outdent', '|',
 
-            'link', 'imageUpload', 'insertTable', 'horizontalLine', '|',
+            'link', 'imageUpload', 'insertTable', 'horizontalLine', 'mediaEmbed', '|',
 
-            'codeBlock', 'specialCharacters', '|',
+            'blockQuote', 'codeBlock', '|',
+            'highlight','specialCharacters', '|',
+            'removeFormat', 'findAndReplace', '|',
 
             'fullScreen',
             'sourceEditing',
@@ -189,6 +193,7 @@ CKEDITOR_5_CONFIGS = {
                 '|',
                 'imageTextAlternative'
             ],
+
             'styles': [
                 'inline',
                 'block',
@@ -209,10 +214,32 @@ CKEDITOR_5_CONFIGS = {
             ]
         },
 
+        # حفظ امکانات → فقط اصلاح جهت و استایل خروجی
+        'contentsLang': 'fa',
+        'contentsLangDirection': 'rtl',
+
+        # جلوگیری از ساخت p داخل li (مشکل اصلی لیست‌ها)
+        'disableAutomaticParagraphWrapping': True,
+
+        # اجازه تمام تگ‌ها → حذف جلوگیری CKEditor از HTML درست
+        'htmlSupport': {
+            'allow': [
+                {
+                    'name': '*',
+                    'attributes': True,
+                    'classes': True,
+                    'styles': True
+                }
+            ]
+        },
+
         'height': 600,
         'isReadOnly': False,
     }
 }
 
+
 CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_PATH = "uploads/"
+
 

@@ -394,3 +394,48 @@ body{
   }
 
 }
+
+
+
+/* پایه */
+a h2,
+a p {
+    position: relative;
+    display: inline-block;
+    transition: color .25s ease;
+}
+
+/* خط پایه */
+a h2::after,
+a p::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: #222;   /* رنگ خط معمولی */
+    transform: scaleX(0);
+    transform-origin: right;
+    transition:
+        transform .25s ease,
+        background-color .25s ease; /* اجازه تغییر رنگ نرم */
+}
+
+/* hover - نمایش خط */
+a:hover h2::after,
+a:hover p::after {
+    transform: scaleX(1);
+}
+
+/* active - تغییر رنگ خط */
+a:active h2::after,
+a:active p::after {
+    background-color: #ae7e47; /* اینجا رنگ موردنظر اکتیو را بگذار */
+}
+
+/* focus هم خواستی اضافه کن */
+a:focus h2::after,
+a:focus p::after {
+    background-color: #ae7e47;
+}

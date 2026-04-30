@@ -35,7 +35,7 @@
     margin-bottom:40px;
     font-family: "IRZar", "Vazir", "IRANSans", Tahoma, sans-serif;
 
-    unicode-bidi: plaintext;
+    
 }
 
 
@@ -184,6 +184,17 @@
 
 
 /* CKEDITOR */
+
+.single-content p,
+.single-content li,
+.single-content h1,
+.single-content h2,
+.single-content h3,
+.single-content h4 {
+    unicode-bidi: plaintext;
+}
+
+
 .single-content blockquote {
     border-right: 3px solid #d0d0d0;
     padding: 0.8em 2em 0.8em 1.2em;
@@ -270,6 +281,105 @@
     }
 
 }
+
+
+.single-content figure.table {
+    margin: 2rem auto;
+    text-align: center; /* برای وسط قرار گرفتن جدول */
+    overflow-x: auto;
+
+   
+}
+
+.single-content figure.table table {
+    border-collapse: collapse;
+    margin: 0 auto; /* وسط‌چین واقعی جدول */
+     max-width: 100%;
+     width: 90%;
+     height: auto;
+}
+
+.single-content figure.table td,
+.single-content figure.table th {
+    border: 1px solid #d1d5db; /* فقط بردر پایه */
+    padding: 8px 12px;
+    text-align: center; /* متن درون سلول وسط‌چین */
+    vertical-align: middle; /* عمودی هم وسط‌چین می‌شود */
+
+}
+
+
+
+/* LIST */
+
+
+/* لیست‌های داخل کلاس single-content */
+.single-content ul,
+.single-content ol {
+  margin-block: 1.2rem;
+  margin-inline-start: 3rem;
+}
+
+/* آیتم‌های لیست داخل single-content */
+.single-content li {
+  margin-block: 0.5rem;
+  line-height: 1.3;
+  unicode-bidi: plaintext;
+}
+
+/* استایل‌دهی به مارکر آیتم‌هایی با کلاس اختصاصی */
+li.ck-list-marker-font-family::marker {
+  unicode-bidi: plaintext;
+}
+
+
+
+/* تنظیم جهت مارکر لیست به صورت خودکار */
+.single-content ul::marker,
+.single-content ol::marker {
+  direction: auto;
+}
+/* ENDLIST */
+
+
+
+/* =========================
+   Links inside article (CKEditor)
+   ========================= */
+
+.single-content a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color .25s ease;
+}
+
+/* underline انیمیشنی مینیمال */
+.single-content a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: #222;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .25s ease;
+}
+
+/* hover */
+.single-content a:hover {
+    color: #000;
+}
+
+.single-content a:hover::after {
+    transform: scaleX(1);
+}
+
+/* END of A */
+
 
 /* حل مشکل بزرگ شدن تصاویر داخل محتوا */
 

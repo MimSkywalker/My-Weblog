@@ -27,7 +27,7 @@
     
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:site_name" content="نام سایت شما">
+    <meta property="og:site_name" content='{{ settings.SITE_NAME }}'>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'blog/css/single.css' %}">
@@ -138,6 +138,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+
 
 </body>
 </html>
