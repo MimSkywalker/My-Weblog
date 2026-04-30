@@ -240,6 +240,5 @@ CKEDITOR_5_CONFIGS = {
 
 
 CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-CKEDITOR_5_UPLOAD_PATH = "uploads/"
-
+CKEDITOR_5_UPLOAD_PATH = "my_images/"
 
