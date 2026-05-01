@@ -1,0 +1,38 @@
+.layout{
+  display:flex;
+  flex-direction:row-reverse;
+  min-height:100vh;
+  align-items: stretch;
+}
+
+/* Left Space */
+
+.left-space{
+  width:300px;
+  background:#fff;
+  border-left:1px solid #e5e5e5;
+}
+
+
+/* Content Area */
+.content{
+  flex:1;
+  padding:60px 80px;
+}
+
+
+
+/* Responsive Layout */
+@media (max-width:1400px){
+  .layout{
+    flex-direction:column;
+  }
+
+  .left-space{
+    display:none;
+  }
+
+  .content{
+    padding:40px 20px;
+  }
+}

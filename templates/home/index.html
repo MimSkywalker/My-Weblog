@@ -1,25 +1,22 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="fa" dir="rtl" class="no-js">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>وبلاگ محمد</title>
-    <link rel="stylesheet" href="{% static 'home/css/home.css' %}" />
-  </head>
-  
 
-  <body>
-    <div class="layout">
-      <!-- ستون سفید سمت چپ -->
-      <div class="left-space"></div>
+{% block title %}
+وبلاگ محمد
+{% endblock %}
 
-      <!-- محتوای اصلی -->
-      <main class="content">
-        <h1 class="page-title">آخرین مقالات</h1>
+{% block meta %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
 
-<!-- -->
+{% block content %}
+
+<h1 class="page-title">آخرین مقالات</h1>
+
 <div class="search-box">
   <form action="{% url 'home:home_search' %}" method="GET" class="search-form">
 
@@ -41,45 +38,24 @@
 
   </form>
 </div>
-<!-- -->
-
-{% comment %} 
-    <div class="search-box">
-      <form action="{% url 'home:home_search' %}" method="GET">
-        <input type="text" name="q" placeholder="جستجو در مقالات..." />
-      </form>
-    </div>
- {% endcomment %}
-      {% if posts %}
-       {% include "home/includes/posts.html" %}
-         
-       {% include "home/includes/pagination.html" %}
-      
-      {% else %}
-
-        <article class="post">
-          <h2>متأسّفم</h2>
-          <p>پستِ مدنظر شما پیدا نشد... لطفاً با واژۀ کلیدیِ دیگری جستجو کنید.</p>
-          <span class="date">{{ post.published_at|date:"j F Y" }}</span>
-        </article>
-
-      {% endif %}
 
 
+{% if posts %}
 
- {% include "home/includes/footer.html" %}
+  {% include "home/includes/posts.html" %}
+  {% include "includes/pagination.html" %}
 
-      </main>
+{% else %}
 
+  <article class="post">
+    <h2>متأسّفم</h2>
+    <p>پستِ مدنظر شما پیدا نشد... لطفاً با واژۀ کلیدیِ دیگری جستجو کنید.</p>
+  </article>
 
-      <!-- سایدبار راست -->
-        {% include "home/includes/sidebar.html" %}
+{% endif %}
 
-    </div>
+{% endblock %}
 
-
-
-    <script src="{% static 'home/js/home.js' %}" defer></script>
-
-  </body>
-</html>
+{% block extra_js %}
+<script src="{% static 'home/js/home.js' %}" defer></script>
+{% endblock %}

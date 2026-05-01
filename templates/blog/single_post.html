@@ -1,55 +1,45 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!doctype html>
-<html lang="fa" dir="rtl" class="no-js">
-<head>
+{% block title %}
+{{ post.title }}
+{% endblock %}
 
+{% block meta %}
+<!-- MUST BE FIRST -->
+<meta charset="UTF-8">
 
-    <!-- MUST BE FIRST -->
-    <meta charset="UTF-8">
+<!-- Browser & mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Browser & mobile -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO -->
+<meta name="description" content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}">
 
-    <!-- Title -->
-    <title>{{ post.title }}</title>
+<!-- OpenGraph -->
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:description" content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}">
+{% if post.featured_image %}
+<meta property="og:image" content="{{ post.featured_image.url }}">
+{% endif %}
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:site_name" content="{{ settings.SITE_NAME }}">
+{% endblock %}
 
-    <!-- SEO -->
-    <meta name="description" content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/single.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/singleckeditor.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/comments.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+{% endblock %}
 
-    <!-- OpenGraph -->
-    <meta property="og:title" content="{{ post.title }}">
-    <meta property="og:description" content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}">
-    
-    {% if post.featured_image %}
-    <meta property="og:image" content="{{ post.featured_image.url }}">
-    {% endif %}
-    
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:site_name" content='{{ settings.SITE_NAME }}'>
+{% block content %}
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'blog/css/single.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/comments.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
-</head>
-
-<body>
-
-<div class="layout">
-    <div class="left-space"></div>
-
-    <main class="content">
-
-        <!-- عنوان پست -->
-        <!-- عنوان پست و دکمه اشتراک کنار هم -->
+<!-- عنوان پست و دکمه اشتراک -->
 <div class="post-title-row">
   <h1 class="post-title">{{ post.title }}</h1>
-  
   <div class="share-buttons-top" aria-label="اشتراک‌گذاری">
     <a target="_blank" href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ post.title|urlencode }}" title="اشتراک در تلگرام" class="share-btn telegram">
       <img src="{% static 'icons/telegram.svg' %}" alt="Telegram">
@@ -66,80 +56,67 @@
   </div>
 </div>
 
-
-        <!-- اطلاعات متا -->
-        <div class="single-meta">
-            <span class="meta-item">{{ post.category.title }}</span>
-            <span class="dot">•</span>
-            <span class="meta-item">توسط {{ post.author.get_full_name }}</span>
-            <span class="dot">•</span>
-            <span class="meta-item">{{ post.published_at|date:"j F Y" }}</span>
-        </div>
-
-        <!-- تصویر شاخص -->
-        {% if post.featured_image %}
-        <div class="single-thumb-wrapper">
-            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="single-thumb">
-        </div>
-        {% endif %}
-
-        <!-- محتوای پست -->
-        <div class="single-content">
-            {{ post.content|safe }}
-        </div>
-
-        <!-- تگ‌های پست -->
-        {% if post.tags.all %}
-        <div class="single-tags">
-            <h3>برچسب‌ها:</h3>
-            <div class="tag-list">
-                {% for tag in post.tags.all %}
-                    <a href="{% url 'blog:tag' tag.slug %}" class="tag">{{ tag.name }}</a>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- پست‌های مرتبط -->
-        {% if related_posts %}
-        <div class="related-posts">
-            <h3>نوشته‌های مرتبط</h3>
-            <div class="related-list">
-
-                {% for rp in related_posts %}
-                <a href="{{ rp.get_absolute_url }}" class="related-item">
-                    {% if rp.featured_image %}
-                        <img src="{{ rp.featured_image.url }}" alt="{{ rp.title }}">
-                    {% endif %}
-
-                    <span>{{ rp.title }}</span>
-                </a>
-                {% endfor %}
-
-            </div>
-        </div>
-        {% endif %}
-
-
-        {% include "home/includes/comments.html" %}
-
-        {% include "home/includes/footer.html" %}
-    </main>
-
-    {% include "home/includes/sidebar.html" %}
+<!-- اطلاعات متا -->
+<div class="single-meta">
+  <span class="meta-item">{{ post.category.title }}</span>
+  <span class="dot">•</span>
+  <span class="meta-item">توسط {{ post.author.get_full_name }}</span>
+  <span class="dot">•</span>
+  <span class="meta-item">{{ post.published_at|date:"j F Y" }}</span>
 </div>
 
-<script src="{% static 'home/js/home.js' %}" defer></script>
+<!-- تصویر شاخص -->
+{% if post.featured_image %}
+<div class="single-thumb-wrapper">
+  <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="single-thumb">
+</div>
+{% endif %}
+
+<!-- محتوای پست -->
+<div class="single-content">
+  {{ post.content|safe }}
+</div>
+
+<!-- تگ‌های پست -->
+{% if post.tags.all %}
+<div class="single-tags">
+  <h3>برچسب‌ها:</h3>
+  <div class="tag-list">
+    {% for tag in post.tags.all %}
+      <a href="{% url 'blog:tag' tag.slug %}" class="tag">{{ tag.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- پست‌های مرتبط -->
+{% if related_posts %}
+<div class="related-posts">
+  <h3>نوشته‌های مرتبط</h3>
+  <div class="related-list">
+    {% for rp in related_posts %}
+      <a href="{{ rp.get_absolute_url }}" class="related-item">
+        {% if rp.featured_image %}
+          <img src="{{ rp.featured_image.url }}" alt="{{ rp.title }}">
+        {% endif %}
+        <span>{{ rp.title }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% include "blog/includes/comments.html" %}
+
+{% endblock %}
+
+{% block extra_js %}
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("pre code").forEach(function (block) {
-        hljs.highlightElement(block);
+      hljs.highlightElement(block);
     });
-});
+  });
 </script>
-
-
-
-</body>
-</html>
+{% endblock %}

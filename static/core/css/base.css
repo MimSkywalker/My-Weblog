@@ -1,0 +1,54 @@
+*, *::before, *::after{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"IRZar","Tahoma",sans-serif;
+  background:#f9f9f9;
+  color:#222;
+}
+
+h1, h2, h3, .post-title{
+  font-family: "IRZar", serif;
+}
+
+
+a h2,
+a p {
+  position: relative;
+  display: inline-block;
+  transition: color .25s ease;
+}
+
+a h2::after,
+a p::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: #222;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition:
+    transform .25s ease,
+    background-color .25s ease;
+}
+
+a:hover h2::after,
+a:hover p::after {
+  transform: scaleX(1);
+}
+
+a:active h2::after,
+a:active p::after {
+  background-color: #ae7e47;
+}
+
+a:focus h2::after,
+a:focus p::after {
+  background-color: #ae7e47;
+}

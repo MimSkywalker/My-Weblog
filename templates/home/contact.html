@@ -1,31 +1,22 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="fa" dir="rtl" class="no-js">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تماس با من</title>
+{% block title %}
+تماس با من
+{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
-</head>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
+{% endblock %}
 
-<body>
-    <div class="layout">
+{% block content %}
 
-        <!-- ستون سفید -->
-        <div class="left-space"></div>
+<h1 class="page-title">تماس با من</h1>
 
-        <!-- محتوای صفحه تماس -->
-        <main class="content">
-
-            <h1 class="page-title">تماس با من</h1>
-
-            <p class="contact-intro">
-                اگر پرسشی درباره برنامه‌نویسی، جنگو، یا مسیر یادگیری دارید
-                خوشحال می‌شوم پیام شما را دریافت کنم.
-            </p>
+<p class="contact-intro">
+اگر پرسشی درباره برنامه‌نویسی، جنگو، یا مسیر یادگیری دارید
+خوشحال می‌شوم پیام شما را دریافت کنم.
+</p>
 
 <form class="contact-form" method="post" action="{% url "home:contact" %}">
     {% csrf_token %}
@@ -38,56 +29,42 @@
 
     <textarea name="message" rows="6" placeholder="پیام شما..." required></textarea>
 
-    <!-- ✅ نسخه‌ی درست سوئیچ عضویت -->
-<label class="newsletter-switch">
-    <input type="checkbox" id="newsletterCheck" name="subscribe_to_newsletter" checked>
-    <span class="switch">
-        <span class="icon"></span>
-    </span>
-    <span class="switch-label">عضویت در خبرنامه</span>
-</label>
-
+    <label class="newsletter-switch">
+        <input type="checkbox" id="newsletterCheck" name="subscribe_to_newsletter" checked>
+        <span class="switch">
+            <span class="icon"></span>
+        </span>
+        <span class="switch-label">عضویت در خبرنامه</span>
+    </label>
 
     <button type="submit">ارسال پیام</button>
 </form>
 
-            {% if messages %}
-            <div class="msg-container">
-                {% for message in messages %}
-                    <div class="msg-card {{ message.tags }}">
-                        <span class="msg-text">{{ message }}</span>
-                        <span class="msg-close">&times;</span>
-                    </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+{% if messages %}
+<div class="msg-container">
+    {% for message in messages %}
+        <div class="msg-card {{ message.tags }}">
+            <span class="msg-text">{{ message }}</span>
+            <span class="msg-close">&times;</span>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
 
+<hr class="divider">
 
-<hr class='divider'>
+<div class="contact-links">
+    <h3>راه‌های ارتباطی دیگر</h3>
 
-            <div class="contact-links">
-                <h3>راه‌های ارتباطی دیگر</h3>
+    <ul>
+        <li>ایمیل: MdmdNezhad@gmail.com</li>
+        <li>گیت‌هاب: github.com/mimskywalker</li>
+        <li>تلگرام: @mimskywalker</li>
+    </ul>
+</div>
 
-                <ul>
-                    <li>ایمیل: mohammad@example.com</li>
-                    <li>گیت‌هاب: github.com/mohammad</li>
-                    <li>تلگرام: @mohammad</li>
-                </ul>
+{% endblock %}
 
-
-            
-            </div>
-
-         
- {% include "home/includes/footer.html" %}
-        </main>
-
-        <!-- سایدبار -->
-        {% include "home/includes/sidebar.html" %}
-    </div>
-
-    <script src="{% static 'home/js/contact.js' %}" defer></script>
-    <script src="{% static 'home/js/home.js' %}" defer></script>
-</body>
-
-</html>
+{% block extra_js %}
+<script src="{% static 'home/js/contact.js' %}" defer></script>
+{% endblock %}

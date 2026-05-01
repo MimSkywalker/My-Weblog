@@ -1,107 +1,98 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!doctype html>
-<html lang="fa" dir="rtl" class="no-js">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>درباره من</title>
+{% block title %}
+درباره من
+{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home/css/about.css' %}">
-</head>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/about.css' %}">
+{% endblock %}
 
-<body>
+{% block content %}
 
-<div class="layout">
-    <div class="left-space"></div>
+<h1 class="page-title">درباره من</h1>
 
-    <main class="content">
+<!-- 1) معرفی -->
+<section class="about-section fade-in">
+    <h2>معرفی</h2>
+    <p>
+        سلام! من محمدم؛ برنامه‌نویس پایتون و توسعه‌دهنده Django، و هم‌زمان دانشجوی دکتری ادبیات فارسی.
+        تلاش می‌کنم میان دنیای فناوری و فرهنگ پلی بسازم. این وبلاگ را راه انداختم تا مسیر یادگیری‌ام،
+        پروژه‌ها و پژوهش‌هایم را با شما به اشتراک بگذارم.
+    </p>
+</section>
 
-        <h1 class="page-title">درباره من</h1>
+<!-- 2) مهارت‌های برنامه‌نویسی -->
+<section class="about-section fade-in">
+    <h2>مهارت‌های برنامه‌نویسی</h2>
+    <ul class="skills-list">
+        <li>Python</li>
+        <li>Django</li>
+        <li>REST API</li>
+        <li>Docer</li>
+        <li>Git & GitHub</li>
+        <li>HTML / CSS</li>
+        <li>Linux</li>
+        <li>SQL / SQLite / PostgreSQL</li>
+    </ul>
+</section>
 
-        <!-- 1) معرفی -->
-        <section class="about-section fade-in">
-            <h2>معرفی</h2>
-            <p>
-                سلام! من محمدم؛ برنامه‌نویس پایتون و توسعه‌دهنده Django، و هم‌زمان دانشجوی دکتری ادبیات فارسی.
-                تلاش می‌کنم میان دنیای فناوری و فرهنگ پلی بسازم. این وبلاگ را راه انداختم تا مسیر یادگیری‌ام،
-                پروژه‌ها و پژوهش‌هایم را با شما به اشتراک بگذارم.
-            </p>
-        </section>
+<!-- 3) فعالیت‌های دانشگاهی / ادبی -->
+<section class="about-section fade-in">
+    <h2>فعالیت‌های دانشگاهی و ادبی</h2>
+    <ul class="skills-list">
+        <li>دانشجوی دکتری ادبیات فارسی</li>
+        <li>پژوهش در روایت‌شناسی</li>
+        <li>مطالعات اسطوره‌شناسی</li>
+        <li>مقاله‌نویسی و پژوهش ادبی</li>
+        <li>ترجمه و ویراستاری</li>
+    </ul>
+</section>
 
-        <!-- 2) مهارت‌های برنامه‌نویسی -->
-        <section class="about-section fade-in">
-            <h2>مهارت‌های برنامه‌نویسی</h2>
-            <ul class="skills-list">
-                <li>Python</li>
-                <li>Django</li>
-                <li>REST API</li>
-                <li>Git & GitHub</li>
-                <li>HTML / CSS</li>
-                <li>Linux</li>
-                <li>SQL / SQLite / PostgreSQL</li>
-            </ul>
-        </section>
+<!-- 4) مسیر یادگیری -->
+<section class="about-section fade-in">
+    <h2>مسیر یادگیری</h2>
 
-        <!-- 3) فعالیت‌های دانشگاهی / ادبی -->
-        <section class="about-section fade-in">
-            <h2>فعالیت‌های دانشگاهی و ادبی</h2>
-            <ul class="skills-list">
-                <li>دانشجوی دکتری ادبیات فارسی</li>
-                <li>پژوهش در روایت‌شناسی</li>
-                <li>مطالعات اسطوره‌شناسی</li>
-                <li>مقاله‌نویسی و پژوهش ادبی</li>
-                <li>ترجمه و ویراستاری</li>
-            </ul>
-        </section>
+    <div class="timeline-item">
+        <span>۱۴۰۳</span>
+        <p>شروع یادگیری پایتون و آشنایی با مبانی برنامه‌نویسی</p>
+    </div>
 
-        <!-- 4) مسیر یادگیری -->
-        <section class="about-section fade-in">
-            <h2>مسیر یادگیری</h2>
+    <div class="timeline-item">
+        <span>۱۴۰۴</span>
+        <p>ورود به Django، ساخت پروژه‌های واقعی و درک معماری MVC / MVT</p>
+    </div>
 
-            <div class="timeline-item">
-                <span>۱۴۰۳</span>
-                <p>شروع یادگیری پایتون و آشنایی با مبانی برنامه‌نویسی</p>
-            </div>
+    <div class="timeline-item">
+        <span>۱۴۰۴</span>
+        <p>ورود به دوره دکتری ادبیات فارسی و آغاز پژوهش تخصصی</p>
+    </div>
+</section>
 
-            <div class="timeline-item">
-                <span>۱۴۰۴</span>
-                <p>ورود به Django، ساخت پروژه‌های واقعی و درک معماری MVC / MVT</p>
-            </div>
+<!-- 5) در حال حاضر -->
+<section class="about-section fade-in">
+    <h2>در حال حاضر</h2>
+    <p>
+        الان مشغول یادگیری پیشرفته Django، توسعه پروژه‌های واقعی،
+        و تمرین روزانه برای ورود به بازار کار برنامه‌نویسی هستم.  
+        هم‌زمان پژوهش‌های دانشگاهی‌ام را در زمینه روایت‌شناسی و ادبیات ادامه می‌دهم.
+    </p>
+</section>
 
-            <div class="timeline-item">
-                <span>۱۴۰۴</span>
-                <p>ورود به دوره دکتری ادبیات فارسی و آغاز پژوهش تخصصی</p>
-            </div>
-        </section>
+<!-- 6) تماس -->
+<section class="about-section fade-in">
+    <h2>راه‌های ارتباطی</h2>
 
-        <!-- 5) در حال حاضر -->
-        <section class="about-section fade-in">
-            <h2>در حال حاضر</h2>
-            <p>
-                الان مشغول یادگیری پیشرفته Django، توسعه پروژه‌های واقعی،
-                و تمرین روزانه برای ورود به بازار کار برنامه‌نویسی هستم.  
-                هم‌زمان پژوهش‌های دانشگاهی‌ام را در زمینه روایت‌شناسی و ادبیات ادامه می‌دهم.
-            </p>
-        </section>
+    <ul class="skills-list">
+        <li><a href="mailto:mdmdnezhad@gmail.com">ایمیل</a></li>
+        <li><a href="https://t.me/username">تلگرام</a></li>
+        <li><a href="#">گیت‌هاب</a></li>
+    </ul>
+</section>
 
-        <!-- 6) تماس -->
-        <section class="about-section fade-in">
-            <h2>راه‌های ارتباطی</h2>
+{% endblock %}
 
-            <ul class="skills-list">
-                <li><a href="mailto:mdmdnezhad@gmail.com">ایمیل</a></li>
-                <li><a href="https://t.me/username">تلگرام</a></li>
-                <li><a href="#">گیت‌هاب</a></li>
-            </ul>
-        </section>
- {% include "home/includes/footer.html" %}
-    </main>
-
-    {% include "home/includes/sidebar.html" %}
-</div>
-
+{% block extra_js %}
 <script src="{% static 'home/js/home.js' %}" defer></script>
-</body>
-</html>
+{% endblock %}

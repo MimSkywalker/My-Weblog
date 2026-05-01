@@ -2,14 +2,32 @@
 <!doctype html>
 <html lang="fa" dir="rtl" class="no-js">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تماس با من</title>
 
-    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    {% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% endblock %}
+    
+    <title>{% block title %}سایت شخصی{% endblock %}</title>
+
+    <!-- CSS های عمومی -->
+   <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/layout.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/pagination.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
+
+<!-- CKEditor Global Styles -->
+<link rel="stylesheet" href="{% static 'core/css/ckeditor.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
+
+
 
 <body>
     <div class="layout">
@@ -17,18 +35,19 @@
         <!-- ستون سفید -->
         <div class="left-space"></div>
 
-        <!-- محتوای صفحه تماس -->
+        <!-- محتوای اصلی -->
         <main class="content">
-
-       
- {% include "home/includes/footer.html" %}
+            {% block content %}{% endblock %}
+            {% include "includes/footer.html" %}
         </main>
 
         <!-- سایدبار -->
-        {% include "home/includes/sidebar.html" %}
+        {% include "includes/sidebar.html" %}
     </div>
 
+    <!-- JS عمومی -->
     <script src="{% static 'home/js/home.js' %}" defer></script>
-</body>
 
+    {% block extra_js %}{% endblock %}
+</body>
 </html>

@@ -1,0 +1,179 @@
+/* ===============================
+   CKEDITOR CONTENT STYLES (single page scoped)
+   Applies only inside .single-content on single post page
+=============================== */
+
+/* --- Generic text elements --- */
+
+.single-content p,
+.single-content li,
+.single-content h1,
+.single-content h2,
+.single-content h3,
+.single-content h4 {
+    unicode-bidi: plaintext;
+}
+
+/* Headings */
+.single-content h1,
+.single-content h2,
+.single-content h3,
+.single-content h4 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.single-content h1 { font-size: 32px; }
+.single-content h2 { font-size: 26px; }
+.single-content h3 { font-size: 22px; }
+.single-content h4 { font-size: 19px; }
+
+/* Paragraph spacing */
+.single-content p {
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   Blockquote
+=============================== */
+
+.single-content blockquote {
+    border-right: 3px solid #d0d0d0;
+    padding: 0.8em 2em 0.8em 1.2em;
+    margin: 2em 2em 2em 0;
+    color: #666;
+    font-style: normal;
+    font-size: 1.1em;
+    line-height: 1.5;
+    max-width: 700px;
+    font-family: inherit;
+}
+
+/* ===============================
+   Code Blocks
+=============================== */
+
+.single-content pre {
+    direction: ltr;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 18px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid #2a2a2a;
+    font-family: "Fira Code", monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 25px 0;
+    max-width: 100%;
+}
+
+.single-content pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+/* ===============================
+   TABLES
+=============================== */
+
+.single-content figure.table {
+    margin: 2rem auto;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.single-content figure.table table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 90%;
+}
+
+.single-content figure.table td,
+.single-content figure.table th {
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* ===============================
+   LISTS
+=============================== */
+
+.single-content ul,
+.single-content ol {
+    margin-block: 1.2rem;
+    margin-inline-start: 3rem;
+}
+
+.single-content li {
+    margin-block: 0.5rem;
+    line-height: 1.3;
+    unicode-bidi: plaintext;
+}
+
+/* custom list marker provided by CKEditor */
+.single-content li.ck-list-marker-font-family::marker {
+    unicode-bidi: plaintext;
+}
+
+/* fix automatic marker direction */
+.single-content ul::marker,
+.single-content ol::marker {
+    direction: auto;
+}
+
+/* ===============================
+   Images inside CKEditor content
+=============================== */
+
+.single-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.single-content img[src$=".svg"] {
+    max-width: 280px;
+    display: block;
+    margin: 30px auto;
+}
+
+/* ===============================
+   Links inside content
+=============================== */
+
+.single-content a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color .25s ease;
+}
+
+.single-content a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: #222;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .25s ease;
+}
+
+.single-content a:hover {
+    color: #000;
+}
+
+.single-content a:hover::after {
+    transform: scaleX(1);
+}
