@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from blog.models import Post
 from django.contrib.auth import get_user_model
@@ -10,28 +9,24 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
 
-
 User = get_user_model()
+
 
 def homepage(request):
     posts = Post.objects.filter(
         status=Post.Status.PUBLISHED,
         published_at__isnull=False
     ).order_by("-published_at")
-    mohammad = User.objects.get(username="mohammad")
     paginator = Paginator(posts, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {"posts":page_obj, "mohammad":mohammad, "page_obj": page_obj,}
-    return render(request, "home/index.html",context)
-
+    context = {"posts": page_obj, "page_obj": page_obj, }
+    return render(request, "home/index.html", context)
 
 
 def about_view(request):
-    mohammad = User.objects.get(username="mohammad")
-    context = {"mohammad":mohammad}
-    return render(request, "home/about.html", context)
+    return render(request, "home/about.html")
 
 
 def contact_view(request):
@@ -43,39 +38,32 @@ def contact_view(request):
         return redirect("home:contact")
 
     if request.method == "POST":
-        messages.error(request, "فرم نامعتبر است. لطفاً ورودی‌ها را بررسی کنید.")
-
-    mohammad = User.objects.filter(username="mohammad").first()
+        messages.error(
+            request, "فرم نامعتبر است. لطفاً ورودی‌ها را بررسی کنید.")
 
     context = {
         "form": form,
-        "mohammad": mohammad,
     }
     return render(request, "home/contact.html", context)
 
 
-
 def projects_view(request):
-    mohammad = User.objects.get(username="mohammad")
-    context = {"mohammad":mohammad}
-    return render(request, "home/projects.html", context)
+    return render(request, "home/projects.html")
 
 
 def home_search(request):
-    mohammad = User.objects.get(username="mohammad")
     posts = Post.objects.filter(
-    status=Post.Status.PUBLISHED,
-    published_at__isnull=False
+        status=Post.Status.PUBLISHED,
+        published_at__isnull=False
     ).order_by("-published_at")
 
     if request.method == "GET":
         if q := request.GET.get('q'):
-            posts= posts.filter(
-                Q(content__icontains=q)|
-                Q(title__icontains=q)|
-                Q(title_en__icontains=q)|
-                Q(excerpt__icontains=q)            
-                )
-    context = {'posts': posts, "mohammad":mohammad}
+            posts = posts.filter(
+                Q(content__icontains=q) |
+                Q(title__icontains=q) |
+                Q(title_en__icontains=q) |
+                Q(excerpt__icontains=q)
+            )
+    context = {'posts': posts}
     return render(request, 'home/index.html', context)
-    

@@ -12,7 +12,6 @@ User = get_user_model()
 
 def blog_view(request, cat_slug=None, tag_slug=None):
     categories = Category.objects.all()
-    mohammad = User.objects.get(username="mohammad")
     tags = Tag.objects.all()
 
     posts = Post.objects.filter(status = Post.Status.PUBLISHED).order_by('-published_at')
@@ -29,7 +28,6 @@ def blog_view(request, cat_slug=None, tag_slug=None):
     context = {"posts" : posts,
                "categories": categories,
                "tags": tags,
-               "mohammad": mohammad,
                 "active_category": active_category,
                 "active_tag":active_tag,
                 }
@@ -58,9 +56,8 @@ def single_post_view(request, slug):
         form = CommentForm()
     
     comments = post.comments.filter(is_approved=True)
-    mohammad = User.objects.get(username="mohammad")
 
-    context={"post":post, "mohammad":mohammad, "comments": comments, "form": form,}
+    context={"post":post, "comments": comments, "form": form,}
     return render(request, 'blog/single_post.html', context)
 
 
