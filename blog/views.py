@@ -1,7 +1,7 @@
 
 
 from django.contrib import messages
-
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Category, Comment
@@ -14,7 +14,7 @@ def blog_view(request, cat_slug=None, tag_slug=None):
     categories = Category.objects.all()
     tags = Tag.objects.all()
 
-    posts = Post.objects.filter(status = Post.Status.PUBLISHED).order_by('-published_at')
+    posts = Post.objects.filter(status = Post.Status.PUBLISHED, published_at__lte=timezone.now()).order_by('-published_at')
     active_category = None
     active_tag = None
     if cat_slug:
