@@ -90,10 +90,11 @@ class UserAdmin(BaseUserAdmin):
     def avatar_preview(self, obj):
         if obj.avatar:
             return format_html(
-                '<a href="{}" target="_blank">'
-            '<img src="{}" width="300" height="300" style="border-radius:10px; object-fit:cover; border: 1px solid #ccc; transition:0.2s;" '
-            'onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">',
-            obj.avatar.url,obj.avatar.url
+                '<a href="{0}" target="_blank">'
+                '<img src="{0}" width="300" height="300" style="border-radius:10px; object-fit:cover; border: 1px solid #ccc; transition:0.2s;" '
+                'onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1" />'
+                '</a>',
+            obj.avatar.url
             )
         return "-"
     
