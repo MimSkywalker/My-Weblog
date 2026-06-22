@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import ContactMessageForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.utils import timezone
 
 
 User = get_user_model()
@@ -15,7 +16,7 @@ User = get_user_model()
 def homepage(request):
     posts = Post.objects.filter(
         status=Post.Status.PUBLISHED,
-        published_at__isnull=False
+        published_at__lte=timezone.now()
     ).order_by("-published_at")
     paginator = Paginator(posts, 20)
     page_number = request.GET.get("page")
@@ -54,7 +55,7 @@ def projects_view(request):
 def home_search(request):
     posts = Post.objects.filter(
         status=Post.Status.PUBLISHED,
-        published_at__isnull=False
+        published_at__lte=timezone.now()
     ).order_by("-published_at")
 
     if request.method == "GET":
