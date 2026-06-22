@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Category, Comment
 from taggit.models import Tag
 from blog.forms import CommentForm
-
+from django.utils import timezone
 User = get_user_model()
 
 def blog_view(request, cat_slug=None, tag_slug=None):
@@ -37,7 +37,12 @@ def blog_view(request, cat_slug=None, tag_slug=None):
 
 def single_post_view(request, slug):
 
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(
+        Post, 
+        slug=slug, 
+        status=Post.Status.PUBLISHED,
+        published_at__lte=timezone.now()
+        )
 
     
     if request.method == "POST":
