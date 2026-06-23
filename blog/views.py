@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Category, Comment
 from taggit.models import Tag
 from blog.forms import CommentForm
-from django.utils import timezone
+
 User = get_user_model()
 
 
