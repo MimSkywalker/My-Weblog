@@ -216,7 +216,8 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         related_name="posts",
         null=True,
-        blank=True
+        blank=True,
+        default=get_default_category
 
     )
 
@@ -318,12 +319,6 @@ class Post(models.Model):
             if not self.published_at:
                 self.published_at = timezone.now()
 
-        # Assign default category if none is provided
-        if not self.category_id:
-            try:
-                self.category_id = get_default_category()
-            except Exception:
-                pass
 
         # Save the post (first database write)
         super().save(*args, **kwargs)
