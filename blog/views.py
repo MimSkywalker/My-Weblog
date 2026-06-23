@@ -63,7 +63,7 @@ def single_post_view(request, slug):
     else:
         form = CommentForm()
 
-    comments = post.comments.filter(is_approved=True)
+    comments = post.comments.filter(is_approved=True).select_related('post')
 
     context = {"post": post, "comments": comments, "form": form, }
     return render(request, 'blog/single_post.html', context)
