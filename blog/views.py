@@ -2,13 +2,12 @@
 
 from django.contrib import messages
 from django.utils import timezone
-from django.contrib.auth import get_user_model
+
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Category, Comment
 from taggit.models import Tag
 from blog.forms import CommentForm
 
-User = get_user_model()
 
 
 def blog_view(request, cat_slug=None, tag_slug=None):
@@ -48,7 +47,7 @@ def single_post_view(request, slug):
     )
 
     if request.method == "POST":
-        form = CommentForm(request.POST or None)
+        form = CommentForm(request.POST)
         if form.is_valid():
 
             comment = form.save(commit=False)
