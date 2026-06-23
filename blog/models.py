@@ -228,7 +228,6 @@ class Post(models.Model):
         max_length=20,
         choices=Status.choices,
         default=Status.DRAFT,
-        db_index=True
     )
 
     # views_count = 'x'
@@ -255,7 +254,7 @@ class Post(models.Model):
     published_at = models.DateTimeField(
         null=True,
         blank=True,
-        db_index=True
+
     )
 
     # SEO meta description (shown in search engines)
@@ -358,6 +357,10 @@ class Post(models.Model):
         if old_image_path and (not self.featured_image or old_image_path != self.featured_image.path):
             if os.path.exists(old_image_path):
                 os.remove(old_image_path)
+
+    class Meta:
+        indexes = [models.Index(fields=['status', '-published_at'])]
+        ordering = ['-published_at', '-created_at']
 
     def __str__(self) -> str:
         # Human-readable representation of the post
