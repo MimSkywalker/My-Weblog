@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     "blog",
     "home",
 
-    #tools
+    # tools
     'taggit',
     "django_ckeditor_5",
 ]
@@ -75,8 +75,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": 'django.db.backends.postgresql',
+        'NAME': 'my_blog_db',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -119,15 +123,13 @@ USE_TZ = True
 AUTH_USER_MODEL = "accounts.User"
 
 
-#Static and Media settings
+# Static and Media settings
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-
-
 
 
 # CKEditor
@@ -150,7 +152,7 @@ CKEDITOR_5_CONFIGS = {
             'link', 'imageUpload', 'insertTable', 'horizontalLine', 'mediaEmbed', '|',
 
             'blockQuote', 'codeBlock', '|',
-            'highlight','specialCharacters', '|',
+            'highlight', 'specialCharacters', '|',
             'removeFormat', 'findAndReplace', '|',
 
             'fullScreen',
@@ -243,4 +245,3 @@ CKEDITOR_5_CONFIGS = {
 
 CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 CKEDITOR_5_UPLOAD_PATH = "my_images/"
-
