@@ -96,7 +96,7 @@
                     <td>{{ post.published_at|date:"j F Y" }}</td>
                     
                     <td>
-                        <a href="#" class="btn-action btn-edit">ویرایش</a>
+                        <a href="{% url 'blog:post_update' post.pk %}" class="btn-action btn-edit">ویرایش</a>
                         <a href="#" class="btn-action btn-delete">حذف</a>
                     </td>
                 </tr>

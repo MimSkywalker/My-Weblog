@@ -1,6 +1,7 @@
 
 
 from django.contrib import messages
+from django.db.models.query import QuerySet
 from django.utils import timezone
 
 from django.shortcuts import redirect, render, get_object_or_404
@@ -129,3 +130,13 @@ def quick_category_create(request):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'درخواست نامعتبر است.'})
+
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/admin/post_form.html'
+    success_url = reverse_lazy('blog:admin_post_list')
+
+
