@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+حذف نوشته | وبلاگ
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<style>
+.delete-page {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+}
+
+.delete-card {
+    width: 100%;
+    max-width: 560px;
+    padding: 3rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.delete-title {
+    margin: 0 0 1rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.delete-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: #4b5563;
+}
+
+.delete-text strong {
+    color: #111827;
+    font-weight: 600;
+}
+
+.delete-warning {
+    margin: 1rem 0 2rem;
+    font-size: .95rem;
+    color: #6b7280;
+}
+
+.delete-actions {
+    display: flex;
+    justify-content: center;
+    gap: .75rem;
+}
+
+/* انصراف */
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 44px;
+    padding: 0 1.25rem;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #374151;
+
+    text-decoration: none;
+    font-weight: 500;
+
+    transition: .2s;
+}
+
+.btn-cancel:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+/* حذف */
+.btn-delete {
+    height: 44px;
+    padding: 0 1.25rem;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #111827;
+    color: #fff;
+
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.btn-delete:hover {
+    background: #000;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="delete-page">
+    <div class="delete-card fade-in">
+
+        <h1 class="delete-title">
+            حذف نوشته
+        </h1>
+
+        <p class="delete-text">
+            آیا مطمئن هستید که می‌خواهید نوشته
+            <strong>«{{ object.title }}»</strong>
+            را حذف کنید؟
+        </p>
+
+        <p class="delete-warning">
+            این عمل قابل بازگشت نیست.
+        </p>
+
+        <form method="post" class="delete-actions">
+            {% csrf_token %}
+
+            <a href="{% url 'blog:admin_post_list' %}" class="btn-cancel">
+                انصراف
+            </a>
+
+            <button type="submit" class="btn-delete">
+                حذف نوشته
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

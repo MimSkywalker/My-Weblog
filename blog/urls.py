@@ -11,8 +11,12 @@ urlpatterns = [
     path("post/<slug:slug>/", views.single_post_view, name="single_post"),
     path('manage/posts/', views.AdminPostListView.as_view(), name='admin_post_list'),
     path('manage/posts/create/', views.PostCreateView.as_view(), name='post_create'),
-    path('manage/post/update/<int:pk>/', views.PostUpdateView.as_view(), name='post_update'),
-    path('manage/category/quick-create/', views.quick_category_create, name='quick_category_create'),
+    path('manage/post/update/<int:pk>/',
+         views.PostUpdateView.as_view(), name='post_update'),
+    path('manage/post/delete/<int:pk>/',
+         views.PostDeleteView.as_view(), name='post_delete'),
+    path('manage/category/quick-create/',
+         views.quick_category_create, name='quick_category_create'),
 
 
 ]

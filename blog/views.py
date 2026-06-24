@@ -1,5 +1,7 @@
 
 
+from pyexpat import model
+
 from django.contrib import messages
 from django.db.models.query import QuerySet
 from django.utils import timezone
@@ -138,5 +140,11 @@ class PostUpdateView(UpdateView):
     form_class = PostForm
     template_name = 'blog/admin/post_form.html'
     success_url = reverse_lazy('blog:admin_post_list')
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:admin_post_list')
+    template_name = 'blog/admin/post_confirm_delete.html'
 
 

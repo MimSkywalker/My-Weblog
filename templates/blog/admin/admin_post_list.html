@@ -97,7 +97,7 @@
                     
                     <td>
                         <a href="{% url 'blog:post_update' post.pk %}" class="btn-action btn-edit">ویرایش</a>
-                        <a href="#" class="btn-action btn-delete">حذف</a>
+                        <a href="{% url 'blog:post_delete' post.pk %}" class="btn-action btn-delete">حذف</a>
                     </td>
                 </tr>
             {% empty %}
