@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+مدیریت | لیست جامع پست‌ها
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<style>
+    .admin-table-container { margin: 30px 0; overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 13px; }
+    .admin-table th, .admin-table td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #eee; vertical-align: middle; }
+    .admin-table th { background-color: #f8f9fa; color: #333; font-weight: bold; }
+    
+    /* استایل عکس شاخص کوچک */
+    .admin-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; margin: 0 auto; }
+    
+    .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; display: inline-block; }
+    .status-draft { background: #ffeeba; color: #856404; }
+    .status-published { background: #d4edda; color: #155724; }
+    
+    .login-badge { padding: 2px 6px; border-radius: 12px; font-size: 11px; }
+    .login-true { background-color: #f8d7da; color: #721c24; }
+    .login-false { background-color: #e2e3e5; color: #383d41; }
+
+    .btn-action { padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; margin: 2px; display: inline-block; }
+    .btn-edit { background-color: #007bff; color: white; }
+    .btn-delete { background-color: #dc3545; color: white; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">مدیریت جامع پست‌ها</h1>
+
+<div style="display: flex; justify-content: flex-end; margin: 25px 0 15px 0;">
+    <a href="{% url 'blog:post_create' %}" class="btn-action btn-edit" style="background-color: #28a745; padding: 10px 20px; font-size: 14px; font-weight: bold; margin: 0;">
+        + افزودن پست جدید
+    </a>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>تصویر</th>
+                <th>عنوان پست</th>
+                <th>نویسنده</th>
+                <th>دسته‌بندی</th>
+                <th>نیاز به ورود</th>
+                <th>وضعیت</th>
+                <th>تاریخ ایجاد</th>
+                <th>تاریخ انتشار</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    
+                    <td>
+                        {% if post.featured_image %}
+                            <img class="admin-thumb" src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                        {% else %}
+                            <span style="color: #aaa; font-size: 11px;">بدون تصویر</span>
+                        {% endif %}
+                    </td>
+                    
+                    <td><strong>{{ post.title }}</strong></td>
+                    
+                    <td>{{ post.author.get_full_name|default:post.author.username }}</td>
+                    
+                    <td><span class="blog-cat">{{ post.category.title|default:"بدون دسته‌بندی" }}</span></td>
+                    
+                    <td>
+                        {% if post.login_required %}
+                            <span class="login-badge login-true">بله</span>
+                        {% else %}
+                            <span class="login-badge login-false">خیر</span>
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        {% if post.status == 'published' or post.status == 'PUBLISHED' or post.status == Post.Status.PUBLISHED %}
+                            <span class="status-badge status-published">منتشر شده</span>
+                        {% else %}
+                            <span class="status-badge status-draft">پیش‌نویس</span>
+                        {% endif %}
+                    </td>
+                    
+                    <td>{{ post.created_at|date:"j F Y" }}</td>
+                    
+                    <td>{{ post.published_at|date:"j F Y" }}</td>
+                    
+                    <td>
+                        <a href="#" class="btn-action btn-edit">ویرایش</a>
+                        <a href="#" class="btn-action btn-delete">حذف</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="10"><p>هیچ پستی برای مدیریت یافت نشد.</p></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include "includes/pagination.html" %}
+
+{% endblock %}

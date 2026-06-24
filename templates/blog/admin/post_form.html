@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+وبلاگ | افزودن نوشته جدید
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{{ form.media }}
+
+<style>
+    .form-group { margin-bottom: 25px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+    .form-control-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 14px; }
+    .form-control-input:focus { border-color: #007bff; outline: none; }
+    .checkbox-label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold; }
+    .error-text { display: block; color: #dc3545; font-size: 13px; margin-top: 5px; }
+    .btn-submit { background-color: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; }
+    .btn-submit:hover { background-color: #218838; }
+    
+    /* استایل بخش دسته‌بندی و دکمه افزودن */
+    .category-wrapper { display: flex; gap: 10px; align-items: center; }
+    
+    /* استایل پیش‌نمایش عکس */
+    #image-preview { max-width: 200px; max-height: 200px; display: none; margin-top: 10px; border-radius: 4px; border: 1px solid #ddd; }
+    
+    /* شخصی‌سازی بخش CKEditor */
+    .django-ckeditor5-widget { width: 100% !important; min-height: 300px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">افزودن نوشته جدید</h1>
+
+<div class="blog-list" style="display: block; max-width: 900px; margin: 0 auto;">
+    <article class="blog-card fade-in" style="padding: 30px; flex-direction: column;">
+        
+        <form method="post" enctype="multipart/form-data" style="width: 100%;">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label>تصویر شاخص پست (featured_image):</label>
+                <input type="file" name="featured_image" id="image-input" class="form-control-input" accept="image/*">
+                <img id="image-preview" src="" alt="پیش‌نمایش تصویر شاخص">
+                {% if form.featured_image.errors %}
+                    <span class="error-text">{{ form.featured_image.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>عنوان اصلی پست (title):</label>
+                <input type="text" name="title" value="{{ form.title.value|default:'' }}" class="form-control-input" placeholder="عنوان مقاله را وارد کنید">
+                {% if form.title.errors %}
+                    <span class="error-text">{{ form.title.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>عنوان انگلیسی (title_en):</label>
+                <input type="text" name="title_en" value="{{ form.title_en.value|default:'' }}" class="form-control-input" style="direction: ltr; text-align: left;" placeholder="English Title">
+                {% if form.title_en.errors %}
+                    <span class="error-text">{{ form.title_en.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>اسلاگ URL پست (slug):</label>
+                <input type="text" name="slug" value="{{ form.slug.value|default:'' }}" class="form-control-input" style="direction: ltr; text-align: left;" placeholder="post-slug-url">
+                {% if form.slug.errors %}
+                    <span class="error-text">{{ form.slug.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>وضعیت پست (status):</label>
+                <select name="status" class="form-control-input">
+                    {% for value, text in form.fields.status.choices %}
+                        <option value="{{ value }}" {% if form.status.value == value %}selected{% endif %}>{{ text }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.status.errors %}
+                    <span class="error-text">{{ form.status.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>خلاصه کوتاه پست (excerpt):</label>
+                <textarea name="excerpt" rows="3" class="form-control-input" placeholder="خلاصه‌ای کوتاه برای نمایش در لیست پست‌ها...">{{ form.excerpt.value|default:'' }}</textarea>
+                {% if form.excerpt.errors %}
+                    <span class="error-text">{{ form.excerpt.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>محتوای اصلی پست (content):</label>
+                <div style="direction: rtl; text-align: right;">
+                    {{ form.content }}
+                </div>
+                {% if form.content.errors %}
+                    <span class="error-text">{{ form.content.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>دسته‌بندی پست (category):</label>
+                <div class="category-wrapper" style="margin-bottom: 15px;">
+                    <select name="category" id="category-select" class="form-control-input">
+                        <option value="">---------</option>
+                        {% for value, text in form.fields.category.choices %}
+                            <option value="{{ value }}" {% if form.category.value|stringformat:"s" == value|stringformat:"s" %}selected{% endif %}>{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eaeaea; border-radius: 6px; margin-top: 10px;">
+                    <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold; color: #555;">✨ ساخت سریع دسته‌بندی جدید:</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="new-cat-title" style="flex: 1; min-width: 150px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="نام فارسی (مثلاً: آموزش جنگو)">
+                        <input type="text" id="new-cat-title-en" style="flex: 1; min-width: 150px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; direction: ltr; text-align: left;" placeholder="English Name">
+                        <button type="button" id="btn-quick-add-cat" style="background: #007bff; color: white; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            + ثبت سریع
+                        </button>
+                    </div>
+                </div>
+                {% if form.category.errors %}
+                    <span class="error-text">{{ form.category.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>برچسب‌های پست (tags):</label>
+                <input type="text" name="tags" value="{{ form.tags.value|default:'' }}" class="form-control-input" placeholder="برچسب‌ها را با کامای انگلیسی (,) از هم جدا کنید">
+                {% if form.tags.errors %}
+                    <span class="error-text">{{ form.tags.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>توضیحات متا برای SEO (meta_description):</label>
+                <input type="text" name="meta_description" value="{{ form.meta_description.value|default:'' }}" class="form-control-input" placeholder="حداکثر ۱۶۰ کاراکتر برای موتورهای جستجو">
+                {% if form.meta_description.errors %}
+                    <span class="error-text">{{ form.meta_description.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group" style="margin-top: 25px; margin-bottom: 25px;">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="login_required" {% if form.login_required.value %}checked{% endif %} style="transform: scale(1.2);">
+                    مشاهده این پست نیاز به ورود دارد (login_required)
+                </label>
+                {% if form.login_required.errors %}
+                    <span class="error-text">{{ form.login_required.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>زمان انتشار پست (published_at):</label>
+                <input type="datetime-local" name="published_at" value="{{ form.published_at.value|date:'Y-m-d\TH:i' }}" class="form-control-input">
+                {% if form.published_at.errors %}
+                    <span class="error-text">{{ form.published_at.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px dashed #ddd; margin-top: 20px;">
+                <p style="margin: 0 0 8px 0; font-size: 13px; color: #666;">⏱️ <strong>زمان ساخت (created_at):</strong> <span style="color:#999;">پس از ذخیره به صورت خودکار ثبت می‌شود</span></p>
+                <p style="margin: 0; font-size: 13px; color: #666;">🔄 <strong>آخرین ویرایش (updated_at):</strong> <span style="color:#999;">پس از ذخیره به صورت خودکار به‌روزرسانی می‌شود</span></p>
+            </div>
+
+            <div style="text-align: left; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <button type="submit" class="btn-submit">ذخیره و ایجاد نوشته جدید</button>
+            </div>
+        </form>
+
+    </article>
+</div>
+
+<script>
+    document.getElementById('image-input').onchange = evt => {
+        const [file] = document.getElementById('image-input').files
+        if (file) {
+            const preview = document.getElementById('image-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        }
+    }
+</script>
+<script>
+    const quickAddButton = document.getElementById('btn-quick-add-cat');
+    const inputTitleFa = document.getElementById('new-cat-title');
+    const inputTitleEn = document.getElementById('new-cat-title-en');
+
+    // ۱. پیدا کردن منوی افتادنی اصلی با استفاده از آی‌دی آن
+    const categorySelect = document.getElementById('category-select');
+
+    quickAddButton.addEventListener('click', function() {
+        const titleFaValue = inputTitleFa.value.trim();
+        const titleEnValue = inputTitleEn.value.trim();
+
+        if (titleFaValue === '' || titleEnValue === '') {
+            alert('خطا: پر کردن هم عنوان فارسی و هم انگلیسی الزامی است!');
+            return;
+        }
+
+        const formData = {
+            title: titleFaValue,
+            title_en: titleEnValue
+        };
+
+        fetch('/blog/manage/category/quick-create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // الف) ساختن یک تگ <option> جدید در حافظه مرورگر
+                const newOption = document.createElement('option');
+                
+                // ب) مقدار دهی به تگ: value همان شناسه دیتابیس (pk) و متن نمایش همان عنوان فارسی است
+                newOption.value = data.id;
+                newOption.textContent = data.title;
+                
+                // ج) اضافه کردن این گزینه جدید به انتهای منوی افتادنی اصلی
+                categorySelect.appendChild(newOption);
+                
+                // د) تغییر خودکار منو روی این دسته‌بندی جدید (کاربر نیازی به انتخاب مجدد نداشته باشد)
+                categorySelect.value = data.id;
+
+                // هـ) پاک کردن کادرهای ثبت سریع برای دفعات بعدی و دادن پیام
+                inputTitleFa.value = '';
+                inputTitleEn.value = '';
+                alert('دسته‌بندی با موفقیت ساخته و به منو اضافه شد!');
+                
+            } else {
+                alert('خطا از سمت سرور: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('خطای ارتباطی رخ داد:', error);
+        });
+    });
+</script>
+
+{% endblock %}
