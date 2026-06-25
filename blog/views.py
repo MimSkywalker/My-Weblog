@@ -1,7 +1,5 @@
 
 
-from pyexpat import model
-
 from django.contrib import messages
 from django.db.models.query import QuerySet
 from django.utils import timezone
@@ -18,6 +16,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.utils.text import slugify
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def blog_view(request, cat_slug=None, tag_slug=None):
@@ -79,7 +80,7 @@ def single_post_view(request, slug):
     return render(request, 'blog/single_post.html', context)
 
 
-class AdminPostListView(ListView):
+class AdminPostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Post
     template_name = 'blog/admin/admin_post_list.html'
     context_object_name = 'posts'
@@ -89,8 +90,11 @@ class AdminPostListView(ListView):
     def get_queryset(self):
         return Post.objects.select_related('category').prefetch_related('tags').all().order_by('-created_at')
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class PostCreateView(CreateView):
+
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/admin/post_form.html'
@@ -100,7 +104,12 @@ class PostCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def quick_category_create(request):
     if request.method == 'POST':
         try:
@@ -134,17 +143,20 @@ def quick_category_create(request):
     return JsonResponse({'success': False, 'error': 'درخواست نامعتبر است.'})
 
 
-
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/admin/post_form.html'
     success_url = reverse_lazy('blog:admin_post_list')
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class PostDeleteView(DeleteView):
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:admin_post_list')
     template_name = 'blog/admin/post_confirm_delete.html'
 
-
+    def test_func(self):
+        return self.request.user.is_superuser
