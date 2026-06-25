@@ -1,26 +1,20 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 
-{% block title %}دسترسی محدود شده | ۴۰۳{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
-{% endblock %}
+{% block title %}صفحه پیدا نشد | ۴۰۴{% endblock %}
 
 {% block content %}
 <div style="max-width: 500px; margin: 80px auto; text-align: center; padding: 0 20px; font-family: Tahoma, sans-serif; direction: rtl;">
     
-    <div style="font-size: 72px; margin-bottom: 20px; filter: grayscale(100%);">🔒</div>
+    <div style="font-size: 72px; margin-bottom: 20px; font-weight: bold; color: #ddd; letter-spacing: 2px;">404</div>
 
-    <h1 style="font-size: 26px; font-weight: bold; color: #111; margin-bottom: 15px;">خطای ۴۰۳: ورود ممنوع!</h1>
+    <h1 style="font-size: 26px; font-weight: bold; color: #111; margin-bottom: 15px;">گم شده‌اید؟</h1>
     
     <p style="line-height: 1.8; color: #666; font-size: 14px; margin-bottom: 30px;">
-        شما مجوز لازم برای ورود به این بخش را ندارید. این صفحه حریم شخصی مدیر سایت است.
-    </p>
+       موجودیتِ صفحۀ مذکور در URL، نامکشوف است.    </p>
 
     <div>
-        <a href="{% url 'blog:blog' %}" style="background-color: #111; color: #fff; text-decoration: none; padding: 12px 28px; border-radius: 4px; font-size: 13.5px; font-weight: bold; display: inline-block; transition: background 0.2s;">
-            بازگشت به وبلاگ
+        <a href="{% url 'blog:blog' %}" style="background-color: #111; color: #fff; text-decoration: none; padding: 12px 28px; border-radius: 4px; font-size: 13.5px; font-weight: bold; display: inline-block;">
+            هدایت به صفحه اصلی وبلاگ
         </a>
     </div>
 
