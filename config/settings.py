@@ -218,14 +218,14 @@ CKEDITOR_5_CONFIGS = {
             ]
         },
 
-        # حفظ امکانات → فقط اصلاح جهت و استایل خروجی
+
         'contentsLang': 'fa',
         'contentsLangDirection': 'rtl',
 
-        # جلوگیری از ساخت p داخل li (مشکل اصلی لیست‌ها)
+
         'disableAutomaticParagraphWrapping': True,
 
-        # اجازه تمام تگ‌ها → حذف جلوگیری CKEditor از HTML درست
+
         'htmlSupport': {
             'allow': [
                 {
@@ -250,3 +250,15 @@ CKEDITOR_5_UPLOAD_PATH = "my_images/"
 # Login and Logout
 LOGOUT_REDIRECT_URL = 'home:homepage'
 LOGIN_REDIRECT_URL = 'home:homepage'
+
+
+# Email Setting
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# PasswordReset Setting
+PASSWORD_RESET_TIMEOUT = 3600
+
+# Session Settings
+SESSION_COOKIE_AGE = 604800
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
