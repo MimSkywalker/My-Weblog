@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ایجاد حساب کاربری جدید | سایت شخصی{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'blog/css/comments.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="comments-section" style="max-width: 500px; margin: 60px auto; padding: 0 20px;">
+    
+    <h1 class="comments-title">ثبت‌نام در سایت</h1>
+    <p class="comments-intro">جهت عضویت در سایت و دسترسی به امکانات پیشرفته، لطفا فرم زیر را تکمیل کنید.</p>
+
+    {% if form.non_field_errors %}
+        <div style="background: rgba(229, 62, 62, 0.05); color: #e53e3e; padding: 14px 18px; border-radius: 8px; margin-bottom: 25px; font-size: 14.5px; border: 1px solid rgba(229, 62, 62, 0.15); line-height: 1.7;">
+            {% for error in form.non_field_errors %}
+                <p style="margin: 0;">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post" action="" class="comment-form">
+        {% csrf_token %}
+
+        <div>
+            <input type="text" name="username" id="id_username" placeholder="نام کاربری دلخواه" required maxlength="150" style="font-family: 'IRZar', sans-serif;">
+            {% if form.username.errors %}
+                <span style="color: #e53e3e; font-size: 13px; display: block; margin-top: 6px; padding-right: 4px;">
+                    {{ form.username.errors.as_text }}
+                </span>
+            {% endif %}
+            {% if form.username.help_text %}
+                <small style="display: block; color: #888; font-size: 11.5px; margin-top: 4px; padding-right: 4px; line-height: 1.5;">{{ form.username.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="email" name="email" id="id_email" placeholder="آدرس ایمیل" required style="font-family: 'IRZar', sans-serif;">
+            {% if form.email.errors %}
+                <span style="color: #e53e3e; font-size: 13px; display: block; margin-top: 6px; padding-right: 4px;">
+                    {{ form.email.errors.as_text }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="password" name="password1" id="id_password1" placeholder="کلمه عبور" required style="font-family: 'IRZar', sans-serif;">
+            {% if form.password1.errors %}
+                <span style="color: #e53e3e; font-size: 13px; display: block; margin-top: 6px; padding-right: 4px;">
+                    {{ form.password1.errors.as_text }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="password" name="password2" id="id_password2" placeholder="تکرار کلمه عبور" required style="font-family: 'IRZar', sans-serif;">
+            {% if form.password2.errors %}
+                <span style="color: #e53e3e; font-size: 13px; display: block; margin-top: 6px; padding-right: 4px;">
+                    {{ form.password2.errors.as_text }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 8px;">
+            <button type="submit" class="comment-submit" style="width: 100%; font-weight: 600;">ایجاد حساب کاربری</button>
+        </div>
+    </form>
+
+    <div style="text-align: center; margin: 25px 0; position: relative;">
+        <span style="background: #fff; padding: 0 15px; color: #888; font-size: 14px; position: relative; z-index: 2;">یا ثبت‌نام با حساب‌های اجتماعی</span>
+        <div style="position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid rgba(0,0,0,0.06); z-index: 1;"></div>
+    </div>
+
+    <div class="social-login-providers" style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; color: #333; text-decoration: none; font-size: 14.5px; font-family: 'IRZar', sans-serif; background: #fff; transition: all 0.25s ease;" onmouseover="this.style.background='#f9f9f9'; this.style.borderColor='#bbb';" onmouseout="this.style.background='#fff'; this.style.borderColor='#ddd';">
+            <svg width="18" height="18" viewBox="0 0 24 24" style="display: block;"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69c-.29 1.5-.14 3.01-.97 4.29l3.1 2.4c1.8-1.66 2.92-4.11 2.92-7.54z"/><path fill="#34A853" d="M12 24c3.24 0 5.97-1.08 7.96-2.91l-3.1-2.4c-.9.6-2.07.98-3.32.98-3.11 0-5.74-2.1-6.68-4.92H3.63v2.48C5.61 20.12 8.56 24 12 24z"/><path fill="#FBBC05" d="M5.32 14.75A7.16 7.16 0 0 1 4.93 12c0-.96.16-1.9.44-2.77V6.75H1.15A11.97 11.97 0 0 0 0 12c0 1.92.45 3.74 1.15 5.38l4.17-2.63z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.22 0 12 0 8.56 0 5.61 3.88 3.63 7.85l4.17 2.63c.94-2.82 3.57-4.73 6.68-4.73z"/></svg>
+            <span>ثبت‌نام با حساب گوگل</span>
+        </a>
+
+        <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; border: 1px solid #222; border-radius: 8px; color: #fff; text-decoration: none; font-size: 14.5px; font-family: 'IRZar', sans-serif; background: #24292e; transition: all 0.25s ease;" onmouseover="this.style.background='#000';" onmouseout="this.style.background='#24292e';">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: block;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <span>ثبت‌نام با حساب گیت‌هاب</span>
+        </a>
+    </div>
+
+    <hr class="divider" style="margin-top: 30px;">
+
+    <div style="text-align: center; font-size: 14px; margin-top: 20px;">
+        <span style="color: #666;">قبلاً ثبت‌نام کرده‌اید؟</span>
+        <a href="{% url 'login' %}" style="color: #222; text-decoration: none; font-weight: 600; margin-right: 5px; transition: color 0.25s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#222'">
+            وارد شوید
+        </a>
+    </div>
+
+</div>
+{% endblock %}
