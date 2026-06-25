@@ -1,4 +1,4 @@
-      {% load static %}
+{% load static %}
       <aside class="sidebar">
         <div class="profile">
 
@@ -14,7 +14,7 @@
         <nav>
 
             <ul class="sidebar-nav">
-            <li><a href="{% url 'home:homepage' %}">صفحۀ اصلی</a></li>
+              <li><a href="{% url 'home:homepage' %}">صفحۀ اصلی</a></li>
               <li><a href="{% url 'home:about' %}">درباره من</a></li>
               <li><a href="{% url 'blog:blog' %}">وبلاگ</a></li>
               <li><a href="{% url 'home:projects' %}">پروژه‌ها</a></li>
@@ -29,5 +29,29 @@
           <a href="#">LinkedIn</a>
           <a href="#">YouTube</a>
           <a href="#">Telegram</a>
+        </div>
+
+        <div class="site-auth" style="text-align: center; margin-top: 35px; padding-top: 20px; border-top: 1px dashed rgba(0,0,0,0.06); font-family: inherit;">
+          {% if user.is_authenticated %}
+              <span style="font-size: 12.5px; color: #888; display: block; margin-bottom: 6px; letter-spacing: -0.2px;">
+                کاربر مِهمان: <strong style="color: #444; font-weight: 500;">{{ user.username }}</strong>
+              </span>
+              <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                  {% csrf_token %}
+                  <button type="submit" style="background: none; border: none; color: #999; cursor: pointer; font-family: inherit; font-size: 12px; padding: 2px 8px; transition: all 0.2s;" onmouseover="this.style.color='#e53e3e'" onmouseout="this.style.color='#999'">
+                      خروج از حساب ←
+                  </button>
+              </form>
+          {% else %}
+              <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                  <a href="{% url 'login' %}" style="font-size: 13px; color: #666; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#666'">
+                      ورود
+                  </a>
+                  <span style="color: #ddd; font-size: 9px; user-select: none;">•</span>
+                  <a href="{% url 'accounts:signup' %}" style="font-size: 13px; color: #888; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#888'">
+                      عضویت در سایت
+                  </a>
+              </div>
+          {% endif %}
         </div>
       </aside>
