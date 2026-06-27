@@ -40,7 +40,12 @@
         </span>
         <span class="switch-label">عضویت در خبرنامه</span>
     </label>
-
+{{ form.captcha }}
+    {% if form.captcha.errors %}
+        <div class="captcha-errors" style="color: #dc3545; font-size: 0.85em; margin-bottom: 10px;">
+            {{ form.captcha.errors }}
+        </div>
+    {% endif %}
     <button type="submit">ارسال پیام</button>
 </form>
 

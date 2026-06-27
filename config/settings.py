@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+
+
+    'django_recaptcha',
 ]
 
 
@@ -282,7 +285,14 @@ PASSWORD_RESET_TIMEOUT = 3600
 SESSION_COOKIE_AGE = 604800
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-
+# Social login and signup setting
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_REQUIRED = True
+
+
+# recaptcha setting
+RECAPTCHA_PUBLIC_KEY = '6Ld3ajgtAAAAAJJ1I-m4tTkddkOhj2QXvDZXhhI3'
+RECAPTCHA_PRIVATE_KEY = '6Ld3ajgtAAAAAGA-RXJL7j0YaqGZ-BDJZqCIJwGd'
+
+RECAPTCHA_REQUIRED_SCORE = 0.5
