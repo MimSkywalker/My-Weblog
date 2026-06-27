@@ -8,7 +8,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ["name", "email", "subject", "message"]
-
+        
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['name'].required = False
+            self.fields['email'].required = False
 
 class PostForm(forms.ModelForm):
     class Meta:

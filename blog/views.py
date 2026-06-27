@@ -63,7 +63,22 @@ def single_post_view(request, slug):
 
             comment = form.save(commit=False)
             comment.post = post
+            
+            if request.user.is_authenticated:
+                comment.name = request.user.get_full_name() or request.user.username
+                comment.email = request.user.email
+
+            else:
+                if not comment.name or not comment.email:
+                    messages.error(request, "کاربران مهمان باید نام و ایمیل خود را وارد کنند.")                
+                    comments = post.comments.filter(is_approved=True).select_related('post')
+                    context = {"post": post, "comments": comments, "form": form}
+                    return render(request, 'blog/single_post.html', context)
+
+
             comment.save()
+
+
             messages.success(
                 request, "دیدگاه شما با موفقیت ثبت شد. سپاس‌گزارم!")
             return redirect("blog:single_post", slug=slug)

@@ -13,11 +13,17 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
 
+
+
+            {% if not user.is_authenticated %}
+
             <input type="text" name="name" placeholder="نامِ شما" required>
             {{ form.name.errors }}
 
             <input type="email" name="email" placeholder="ایمیلِ شما" required>
             {{ form.email.errors }}
+
+            {% endif %}
 
             <input type="text" name="subject" placeholder="موضوعِ پیامِ شما" required>
             {{ form.subject.errors }}
