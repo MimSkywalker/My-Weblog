@@ -30,11 +30,39 @@ def about_view(request):
     return render(request, "home/about.html")
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 def contact_view(request):
     form = ContactMessageForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        form.save()
+
+        contact_msg = form.save(commit=False)
+
+
+        if request.user.is_authenticated:
+            contact_msg.name = request.user.get_full_name() or request.user.username
+            contact_msg.email = request.user.email            
+        
+        else:
+            if not contact_msg.name or not contact_msg.email:
+                messages.error(request, "کاربران مهمان باید نام و ایمیل خود را وارد کنند.")
+
+                context = {"form": form}
+                return render(request, "home/contact.html", context)
+
+
+        contact_msg.save()
         messages.success(request, "پیام شما با موفقیت ثبت شد. ممنون از شما!")
         return redirect("home:contact")
 
@@ -46,6 +74,17 @@ def contact_view(request):
         "form": form,
     }
     return render(request, "home/contact.html", context)
+
+
+
+
+
+
+
+
+
+
+
 
 
 def projects_view(request):

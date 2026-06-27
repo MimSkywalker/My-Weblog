@@ -21,9 +21,13 @@
 <form class="contact-form" method="post" action="{% url "home:contact" %}">
     {% csrf_token %}
 
+
+    {% if not user.is_authenticated %}
     <input type="text" name="name" placeholder="نام شما" required>
 
     <input type="email" name="email" placeholder="ایمیل شما" required>
+
+    {% endif %}
 
     <input type="text" name="subject" placeholder="موضوعِ پیام" required>
 
