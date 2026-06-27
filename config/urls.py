@@ -11,8 +11,12 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('', include('home.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+
+
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

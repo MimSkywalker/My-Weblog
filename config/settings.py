@@ -36,7 +36,25 @@ INSTALLED_APPS = [
     # tools
     'taggit',
     "django_ckeditor_5",
+
+    # allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 ]
+
+
+SITE_ID = 2
+
+# Authentication Setting
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -46,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -262,3 +281,8 @@ PASSWORD_RESET_TIMEOUT = 3600
 # Session Settings
 SESSION_COOKIE_AGE = 604800
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_EMAIL_REQUIRED = True
