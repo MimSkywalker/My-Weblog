@@ -64,6 +64,14 @@ def single_post_view(request, slug):
             comment = form.save(commit=False)
             comment.post = post
             
+            parent_id = request.POST.get('parent_id')
+            if parent_id:
+                comment.parent = Comment.objects.get(id=parent_id)
+
+
+
+
+
             if request.user.is_authenticated:
                 comment.name = request.user.get_full_name() or request.user.username
                 comment.email = request.user.email
@@ -71,7 +79,7 @@ def single_post_view(request, slug):
             else:
                 if not comment.name or not comment.email:
                     messages.error(request, "کاربران مهمان باید نام و ایمیل خود را وارد کنند.")                
-                    comments = post.comments.filter(is_approved=True).select_related('post')
+                    comments = post.comments.filter(is_approved=True, parent__isnull=True).select_related('post')
                     context = {"post": post, "comments": comments, "form": form}
                     return render(request, 'blog/single_post.html', context)
 
@@ -89,7 +97,7 @@ def single_post_view(request, slug):
     else:
         form = CommentForm()
 
-    comments = post.comments.filter(is_approved=True).select_related('post')
+    comments = post.comments.filter(is_approved=True, parent__isnull=True).select_related('post')
 
     context = {"post": post, "comments": comments, "form": form, }
     return render(request, 'blog/single_post.html', context)

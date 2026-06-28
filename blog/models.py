@@ -319,7 +319,6 @@ class Post(models.Model):
             if not self.published_at:
                 self.published_at = timezone.now()
 
-
         # Save the post (first database write)
         super().save(*args, **kwargs)
 
@@ -369,6 +368,13 @@ class Comment(models.Model):
         related_name="comments"
     )
 
+    parent = models.ForeignKey('self',
+                               on_delete=models.CASCADE,
+                               null=True,
+                               blank=True,
+                               related_name="replies"
+                               )
+
     name = models.CharField(max_length=120)
     email = models.EmailField()
     subject = models.CharField(max_length=200)
@@ -376,7 +382,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=False, null=False)
     created_at = models.DateTimeField(
         auto_now_add=True, blank=False, null=False)
-    is_approved = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_at"]

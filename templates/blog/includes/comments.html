@@ -1,84 +1,165 @@
 {% load static %}
-<hr class="divider">
 
+<section class="comments-section" dir="rtl">
 
+    <hr class="divider">
 
+    <div class="comment-form-section">
+        <h3 class="section-heading" id="form-title">ارسال دیدگاه</h3>
 
-<div class="comments-section">
- <div class="comment-form-section">
+        <div class="comment-form-section">
+    <h3 class="section-heading" id="form-title">ارسال دیدگاه</h3>
 
-        <h3 class="form-title">ارسال دیدگاه</h3>
+    <div id="reply-banner" style="display: none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+        در حال پاسخ به
+        <strong id="reply-to-name"></strong>
+    </div>
+
+    <button id="cancel-reply" style="display: none;">
+        <span>لغو پاسخ</span> &times;
+    </button>
+
 
         <form method="post" class="comment-form" action="{% url 'blog:single_post' post.slug %}">
             {% csrf_token %}
+            <input type="hidden" name="parent_id" id="parent_id" value="">
+
             {{ form.non_field_errors }}
 
-
-
             {% if not user.is_authenticated %}
-
-            <input type="text" name="name" placeholder="نامِ شما" required>
-            {{ form.name.errors }}
-
-            <input type="email" name="email" placeholder="ایمیلِ شما" required>
-            {{ form.email.errors }}
-
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="نامِ شما" required>
+                    {{ form.name.errors }}
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="ایمیلِ شما" required>
+                    {{ form.email.errors }}
+                </div>
+            </div>
             {% endif %}
 
-            <input type="text" name="subject" placeholder="موضوعِ پیامِ شما" required>
-            {{ form.subject.errors }}
-
-            <textarea name="message" rows="6" placeholder="متن دیدگاه..." required></textarea>
-            {{ form.message.errors }}
-            
-            <button type="submit" class="comment-submit">
-                ارسال دیدگاه
-            </button>
-        </form>
-
-    </div>
-<hr class="divider">
-
-{% if comments.count %}
-    <h2 class="comments-title">دیدگاه‌ها ({{ comments.count }})</h2>
-{% else %}
-        <h2 class="comments-title">دیدگاه‌ها </h2>
-{% endif %}
-    <div class="comments-list">
-        {% for comment in comments %}
-        <div class="comment-item">
-
-            <div class="comment-meta">
-                <span class="comment-author">{{ comment.name }}</span>
-                <span class="comment-date">{{ comment.created_at|date:"j F Y" }}</span>
+            <div class="form-group">
+                <input type="text" name="subject" placeholder="موضوعِ پیام" required>
+                {{ form.subject.errors }}
             </div>
 
-            <p class="comment-text">
-                {{ comment.message|linebreaks }}
-            </p>
+            <div class="form-group">
+                <textarea name="message" rows="5" placeholder="متن دیدگاه شما..." required></textarea>
+                {{ form.message.errors }}
+            </div>
 
-        </div>
+            <button type="submit" class="comment-submit">ارسال دیدگاه</button>
+        </form>
+    </div>
+
+    <hr class="divider">
+
+    <div class="comments-header">
+        <h2 class="section-heading">
+            دیدگاه‌ها
+            {% if comments.count %}
+            <span class="comment-count">{{ comments.count }}</span>
+            {% endif %}
+        </h2>
+    </div>
+
+    <div class="comments-list">
+        {% for comment in comments %}
+        <article class="comment-card">
+
+            <div class="comment-avatar">
+                {{ comment.name|first|upper }}
+            </div>
+
+            <div class="comment-body">
+                <div class="comment-meta">
+                    <span class="comment-author">{{ comment.name }}</span>
+                    <span class="meta-dot">·</span>
+                    <span class="comment-date">{{ comment.created_at|date:"j F Y" }}</span>
+                </div>
+
+                <div class="comment-subject">
+                    <span class="subject-label">موضوع:</span>
+                    {{ comment.subject }}
+                </div>
+
+                <div class="comment-text">
+                    {{ comment.message|linebreaksbr }}
+                </div>
+
+                <button class="reply-btn" onclick="setReply({{ comment.id }}, '{{ comment.name }}')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+                    پاسخ
+                </button>
+
+                {% if comment.replies.all %}
+                <div class="replies-container">
+                    {% for reply in comment.replies.all %}
+                    {% if reply.is_approved %}
+                    <article class="comment-card reply-card">
+                        <div class="comment-avatar reply-avatar">
+                            {{ reply.name|first|upper }}
+                        </div>
+                        <div class="comment-body">
+                            <div class="comment-meta">
+                                <span class="comment-author">{{ reply.name }}</span>
+                                <span class="meta-dot">·</span>
+                                <span class="comment-date">{{ reply.created_at|date:"j F Y" }}</span>
+                            </div>
+                            <div class="comment-text">
+                                {{ reply.message|linebreaksbr }}
+                            </div>
+                        </div>
+                    </article>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+        </article>
         {% empty %}
-        <p class="no-comments">هنوز دیدگاهی ثبت نشده است.</p>
+        <div class="no-comments">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <p>هنوز دیدگاهی ثبت نشده. اولین نفر باشید!</p>
+        </div>
         {% endfor %}
     </div>
 
-    
+</section>
 
-   
-
+{% if messages %}
+<div class="msg-container" role="alert">
+    {% for message in messages %}
+    <div class="msg-card {{ message.tags }}">
+        <span class="msg-text">{{ message }}</span>
+        <button class="msg-close" aria-label="بستن">&times;</button>
+    </div>
+    {% endfor %}
 </div>
+{% endif %}
 
-            {% if messages %}
-            <div class="msg-container">
-                {% for message in messages %}
-                    <div class="msg-card {{ message.tags }}">
-                        <span class="msg-text">{{ message }}</span>
-                        <span class="msg-close">&times;</span>
-                    </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+<script>
+    function setReply(commentId, authorName) {
+        document.getElementById('parent_id').value = commentId;
+        document.getElementById('reply-to-name').innerText = authorName; 
+        document.getElementById('reply-banner').style.display = 'flex';   
+        document.getElementById('cancel-reply').style.display = 'inline-flex';
+        document.querySelector('.comment-form-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('cancel-reply').addEventListener('click', function () {
+        document.getElementById('parent_id').value = '';
+        document.getElementById('reply-banner').style.display = 'none'; 
+        document.getElementById('cancel-reply').style.display = 'none';
+    });
+
+    document.querySelectorAll('.msg-close').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('.msg-card').remove());
+    });
+</script>
 
 <script src="{% static 'home/js/contact.js' %}" defer></script>
 <script src="{% static 'home/js/home.js' %}" defer></script>
