@@ -365,7 +365,7 @@ hr.divider {
 /* --------------------------------------------------------------------------
    10. Flash messages
    -------------------------------------------------------------------------- */
-.msg-container {
+/* .msg-container {
   position: fixed;
   bottom: 24px;
   left: 24px;
@@ -407,7 +407,7 @@ hr.divider {
   flex-shrink: 0;
 }
 
-.msg-close:hover { opacity: 1; }
+.msg-close:hover { opacity: 1; } */
 
 
 /* --------------------------------------------------------------------------
@@ -437,12 +437,12 @@ hr.divider {
     margin: 40px 0;
   }
 
-  .msg-container {
+  /* .msg-container {
     left: 12px;
     right: 12px;
     max-width: none;
   }
-}
+} */
 
 
 #reply-banner {

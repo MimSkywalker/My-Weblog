@@ -30,6 +30,17 @@
 
 
 <body>
+{% if messages %}
+<div class="msg-container" role="alert">
+    {% for message in messages %}
+    <div class="msg-card {{ message.tags }}">
+        <span class="msg-text">{{ message }}</span>
+        <button class="msg-close" aria-label="بستن">&times;</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
     <div class="layout">
 
         <!-- ستون سفید -->
