@@ -50,6 +50,7 @@
         {% endif %}
 
         <div style="margin-top: 8px;">
+        {{ form.captcha }}
             <button type="submit" class="comment-submit" style="width: 100%; font-weight: 600;">ورود با نام کاربری</button>
         </div>
     </form>
@@ -94,4 +95,13 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'home/js/captcha_loader.js' %}" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CaptchaLoader.init('form', '6Ld3ajgtAAAAAJJ1I-m4tTkddkOhj2QXvDZXhhI3');
+    });
+</script>
 {% endblock %}
