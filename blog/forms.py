@@ -2,9 +2,12 @@
 
 from django import forms
 from blog.models import Comment, Post
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV3
 
 
 class CommentForm(forms.ModelForm):
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
     class Meta:
         model = Comment
         fields = ["name", "email", "subject", "message"]
