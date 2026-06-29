@@ -1,38 +1,38 @@
 {% extends "base.html" %}
 {% load static %}
-
+ 
 {% block title %}
 تماس با من
 {% endblock %}
-
+ 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'home/css/contact.css' %}">
 {% endblock %}
-
+ 
 {% block content %}
-
+ 
 <h1 class="page-title">تماس با من</h1>
-
+ 
 <p class="contact-intro">
 اگر پرسشی درباره برنامه‌نویسی، جنگو، یا مسیر یادگیری دارید
 خوشحال می‌شوم پیام شما را دریافت کنم.
 </p>
-
+ 
 <form class="contact-form" method="post" action="{% url "home:contact" %}">
     {% csrf_token %}
-
-
+    {{ form.captcha }}
+ 
     {% if not user.is_authenticated %}
     <input type="text" name="name" placeholder="نام شما" required>
-
+ 
     <input type="email" name="email" placeholder="ایمیل شما" required>
-
+ 
     {% endif %}
-
+ 
     <input type="text" name="subject" placeholder="موضوعِ پیام" required>
-
+ 
     <textarea name="message" rows="6" placeholder="پیام شما..." required></textarea>
-
+ 
     <label class="newsletter-switch">
         <input type="checkbox" id="newsletterCheck" name="subscribe_to_newsletter" checked>
         <span class="switch">
@@ -40,15 +40,10 @@
         </span>
         <span class="switch-label">عضویت در خبرنامه</span>
     </label>
-{{ form.captcha }}
-    {% if form.captcha.errors %}
-        <div class="captcha-errors" style="color: #dc3545; font-size: 0.85em; margin-bottom: 10px;">
-            {{ form.captcha.errors }}
-        </div>
-    {% endif %}
+
     <button type="submit">ارسال پیام</button>
 </form>
-
+ 
 {% if messages %}
 <div class="msg-container">
     {% for message in messages %}
@@ -59,21 +54,33 @@
     {% endfor %}
 </div>
 {% endif %}
-
+ 
 <hr class="divider">
-
+ 
 <div class="contact-links">
     <h3>راه‌های ارتباطی دیگر</h3>
-
+ 
     <ul>
         <li>ایمیل: MdmdNezhad@gmail.com</li>
         <li>گیت‌هاب: github.com/mimskywalker</li>
         <li>تلگرام: @mimskywalker</li>
     </ul>
 </div>
-
+ 
 {% endblock %}
-
+ 
 {% block extra_js %}
 <script src="{% static 'home/js/contact.js' %}" defer></script>
+<script src="{% static 'home/js/captcha_loader.js' %}" defer></script>
+ 
+ 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CaptchaLoader.init('.contact-form', '6Ld3ajgtAAAAAJJ1I-m4tTkddkOhj2QXvDZXhhI3');
+    });
+</script>
+ 
 {% endblock %}
+
+
+

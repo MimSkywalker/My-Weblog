@@ -7,19 +7,15 @@
     <div class="comment-form-section">
         <h3 class="section-heading" id="form-title">ارسال دیدگاه</h3>
 
-        <div class="comment-form-section">
-    <h3 class="section-heading" id="form-title">ارسال دیدگاه</h3>
+        <div id="reply-banner" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+            در حال پاسخ به
+            <strong id="reply-to-name"></strong>
+        </div>
 
-    <div id="reply-banner" style="display: none;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
-        در حال پاسخ به
-        <strong id="reply-to-name"></strong>
-    </div>
-
-    <button id="cancel-reply" style="display: none;">
-        <span>لغو پاسخ</span> &times;
-    </button>
-
+        <button id="cancel-reply" style="display: none;">
+            <span>لغو پاسخ</span> &times;
+        </button>
 
         <form method="post" class="comment-form" action="{% url 'blog:single_post' post.slug %}">
             {% csrf_token %}
@@ -49,6 +45,13 @@
                 <textarea name="message" rows="5" placeholder="متن دیدگاه شما..." required></textarea>
                 {{ form.message.errors }}
             </div>
+
+            {{ form.captcha }}
+            {% if form.captcha.errors %}
+                <div class="captcha-errors" style="color: #dc3545; font-size: 13px; margin-bottom: 10px;">
+                    {{ form.captcha.errors }}
+                </div>
+            {% endif %}
 
             <button type="submit" class="comment-submit">ارسال دیدگاه</button>
         </form>

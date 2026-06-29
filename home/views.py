@@ -30,61 +30,37 @@ def about_view(request):
     return render(request, "home/about.html")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def contact_view(request):
     form = ContactMessageForm(request.POST or None)
+
+    if request.user.is_authenticated:
+        form.fields['name'].required = False
+        form.fields['email'].required = False
 
     if request.method == "POST" and form.is_valid():
 
         contact_msg = form.save(commit=False)
 
-
         if request.user.is_authenticated:
             contact_msg.name = request.user.get_full_name() or request.user.username
-            contact_msg.email = request.user.email            
-        
+            contact_msg.email = request.user.email
         else:
+            # این چک الان معنی داره چون فیلدها required=False نیستن برای guest
             if not contact_msg.name or not contact_msg.email:
-                messages.error(request, "کاربران مهمان باید نام و ایمیل خود را وارد کنند.")
-
-                context = {"form": form}
-                return render(request, "home/contact.html", context)
-
+                messages.error(
+                    request, "کاربران مهمان باید نام و ایمیل خود را وارد کنند.")
+                return render(request, "home/contact.html", {"form": form})
 
         contact_msg.save()
         messages.success(request, "پیام شما با موفقیت ثبت شد. ممنون از شما!")
         return redirect("home:contact")
 
     if request.method == "POST":
+        print(form.errors)
         messages.error(
             request, "فرم نامعتبر است. لطفاً ورودی‌ها را بررسی کنید.")
 
-    context = {
-        "form": form,
-    }
-    return render(request, "home/contact.html", context)
-
-
-
-
-
-
-
-
-
-
-
+    return render(request, "home/contact.html", {"form": form})
 
 
 def projects_view(request):

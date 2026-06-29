@@ -112,11 +112,13 @@
 
 {% block extra_js %}
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="{% static 'home/js/captcha_loader.js' %}" defer></script>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("pre code").forEach(function (block) {
-      hljs.highlightElement(block);
+    document.addEventListener("DOMContentLoaded", function() {
+        CaptchaLoader.init('.comment-form', '6Ld3ajgtAAAAAJJ1I-m4tTkddkOhj2QXvDZXhhI3');
     });
-  });
 </script>
+
+
 {% endblock %}
