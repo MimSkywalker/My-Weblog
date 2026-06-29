@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,  logout as auth_logout
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomLoginForm
 from .models import User
@@ -13,13 +13,11 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-
-
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, "حساب کاربری شما با موفقیت ساخته شد. اکنون وارد شوید.")
+        messages.success(
+            self.request, "حساب کاربری شما با موفقیت ساخته شد. اکنون وارد شوید.")
         return response
-
 
 
 def login_view(request):
@@ -32,9 +30,20 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            next_url = request.POST.get('next') or request.GET.get('next') or '/'
+            messages.success(
+                request, f"خوش آمدید، {user.get_full_name() or user.username}!")
+            next_url = request.POST.get(
+                'next') or request.GET.get('next') or '/'
             return redirect(next_url)
         else:
             form.add_error(None, "نام کاربری یا رمز عبور اشتباه است.")
 
     return render(request, 'registration/login.html', {'form': form})
+
+
+
+
+def logout_view(request):
+    auth_logout(request)
+    messages.success(request, "با موفقیت از حساب کاربری خارج شدید.")
+    return redirect('/')

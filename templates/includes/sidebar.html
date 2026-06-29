@@ -36,7 +36,7 @@
               <span style="font-size: 12.5px; color: #888; display: block; margin-bottom: 6px; letter-spacing: -0.2px;">
                 کاربر مِهمان: <strong style="color: #444; font-weight: 500;">{{ user.username }}</strong>
               </span>
-              <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+              <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">
                   {% csrf_token %}
                   <button type="submit" style="background: none; border: none; color: #999; cursor: pointer; font-family: inherit; font-size: 12px; padding: 2px 8px; transition: all 0.2s;" onmouseover="this.style.color='#e53e3e'" onmouseout="this.style.color='#999'">
                       خروج از حساب ←
